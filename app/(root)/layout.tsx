@@ -1,5 +1,5 @@
-import { Footer } from "@/featues/home/footer";
-import { Header } from "@/featues/home/header";
+import { Footer } from "@/features/home/footer";
+import { Header } from "@/features/home/header";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 

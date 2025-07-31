@@ -1,4 +1,4 @@
-import SignInFromClient from "@/featues/auth/components/SignInFromClient";
+import SignInFromClient from "@/features/auth/components/SignInFromClient";
 import Image from "next/image";
 
 const page = () => {

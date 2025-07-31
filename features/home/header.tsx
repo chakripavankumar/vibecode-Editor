@@ -53,12 +53,6 @@ export function Header() {
                     >
                       Docs
                     </Link>
-                    {/* <Link
-                                            href="/pricing"
-                                            className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
-                                        >
-                                            Pricing
-                                        </Link> */}
                     <Link
                       href="https://codesnippetui.pro/templates?utm_source=codesnippetui.com&utm_medium=header"
                       target="_blank"
@@ -71,7 +65,6 @@ export function Header() {
                     </Link>
                   </div>
                 </div>
-
                 {/* Right side items */}
                 <div className="hidden sm:flex items-center gap-3">
                   <span className="text-zinc-300 dark:text-zinc-700">|</span>
@@ -79,7 +72,6 @@ export function Header() {
                   <ThemeToggle />
                   <UserButton />
                 </div>
-
                 {/* Mobile Navigation remains unchanged */}
                 <div className="flex sm:hidden items-center gap-4">
                   <Link
