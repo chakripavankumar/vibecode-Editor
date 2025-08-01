@@ -3,7 +3,6 @@ generator client {
   output   = "../app/generated/prisma"
 }
 
-
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -15,15 +14,26 @@ enum UserRole {
   PREMIUM_USER
 }
 
+enum Templates {
+  REACT
+  NEXTJS
+  EXPRESS
+  VUE
+  HONO
+  ANGULAR
+}
+
 model User {
-  id        String    @id @default(cuid()) @map("_id")
-  name      String?
-  email     String    @unique
-  image     String?
-  accounts  Account[]
-  role      UserRole  @default(USER)
-  createdAt DateTime  @default(now())
-  updateAt  DateTime  @updatedAt
+  id               String       @id @default(cuid()) @map("_id")
+  name             String?
+  email            String       @unique
+  image            String?
+  accounts         Account[]
+  myplayground     Playground[]
+  staredPlayground StarMark[]
+  role             UserRole     @default(USER)
+  createdAt        DateTime     @default(now())
+  updateAt         DateTime     @updatedAt
 }
 
 model Account {
@@ -44,4 +54,29 @@ model Account {
 
   @@unique([provider, providerAccountId])
   @@index([userId])
+}
+
+model Playground {
+  id          String     @id @default(cuid()) @map("_id")
+  title       String
+  description String?
+  template    Templates  @default(REACT)
+  Starmark    StarMark[]
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model StarMark {
+  id           String     @id @default(cuid()) @map("_id")
+  userId       String
+  playgroundId String
+  isMarked     Boolean
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playground   Playground @relation(fields: [playgroundId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, playgroundId])
 }

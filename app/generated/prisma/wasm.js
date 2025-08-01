@@ -138,6 +138,25 @@ exports.Prisma.AccountScalarFieldEnum = {
   sessionState: 'sessionState'
 };
 
+exports.Prisma.PlaygroundScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  template: 'template',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StarMarkScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  playgroundId: 'playgroundId',
+  isMarked: 'isMarked',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -153,9 +172,20 @@ exports.UserRole = exports.$Enums.UserRole = {
   PREMIUM_USER: 'PREMIUM_USER'
 };
 
+exports.Templates = exports.$Enums.Templates = {
+  REACT: 'REACT',
+  NEXTJS: 'NEXTJS',
+  EXPRESS: 'EXPRESS',
+  VUE: 'VUE',
+  HONO: 'HONO',
+  ANGULAR: 'ANGULAR'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
-  Account: 'Account'
+  Account: 'Account',
+  Playground: 'Playground',
+  StarMark: 'StarMark'
 };
 
 /**

@@ -1,10 +1,17 @@
 import EmptyState from "@/components/ui/empty-state";
+import {
+  deleteProjectById,
+  duplicateProjectById,
+  editProjectById,
+  getAllPlaygroundForUser,
+} from "@/features/dashboard/actions";
 import AddNewButton from "@/features/dashboard/components/AddNewButton";
 import AddRepoButton from "@/features/dashboard/components/AddRepoButton";
+import ProjectTable from "@/features/dashboard/components/ProjectTable";
 import React from "react";
 
-const Page = () => {
-  const playgrounds: any[] = [];
+const Page = async () => {
+  const playgrounds = await getAllPlaygroundForUser();
 
   return (
     <div className="flex flex-col justify-start items-center min-h-screen mx-auto max--w-7xl px-4 py-10">
@@ -20,7 +27,12 @@ const Page = () => {
             imageSrc="/empty-state.svg"
           />
         ) : (
-          <p>Playground Table</p>
+          <ProjectTable
+            projects={playgrounds || []}
+            onDeleteProject={deleteProjectById}
+            onUpdateProject={editProjectById}
+            onDuplicateProject={duplicateProjectById}
+          />
         )}
       </div>
     </div>
