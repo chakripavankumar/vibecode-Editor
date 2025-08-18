@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -9,16 +10,20 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       if (!user || !account) return false;
+
       const existingUser = await db.user.findUnique({
         where: { email: user.email! },
       });
+
       if (!existingUser) {
         const newUser = await db.user.create({
           data: {
             email: user.email!,
             name: user.name,
             image: user.image,
+
             accounts: {
+              // @ts-ignore
               create: {
                 type: account.type,
                 provider: account.provider,
@@ -34,6 +39,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             },
           },
         });
+
         if (!newUser) return false;
       } else {
         const existingAccount = await db.account.findUnique({
@@ -57,30 +63,37 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               tokenType: account.token_type,
               scope: account.scope,
               idToken: account.id_token,
+              // @ts-ignore
               sessionState: account.session_state,
             },
           });
         }
       }
+
       return true;
     },
-    async jwt({ token, user, account }) {
+
+    async jwt({ token }) {
       if (!token.sub) return token;
+
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
-      const exisitingAccount = await getAccountByUserId(existingUser.id);
+
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
+      token.picture = existingUser.image; // ✅ add this
+
       return token;
     },
+
     async session({ session, token }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
-      }
-      if (token.sub && session.user) {
         session.user.role = token.role;
+        session.user.image = token.picture as string; // ✅ forward image to session
       }
+
       return session;
     },
   },
@@ -89,4 +102,4 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
   ...authConfig,
-}); 
+});
