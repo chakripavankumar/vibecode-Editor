@@ -20,7 +20,11 @@ export default function Home() {
         efficiently.
       </p>
       <Link href={"/dashboard"}>
-        <Button variant={"brand"} className="mb-4" size={"lg"}>
+        <Button
+          variant={"default"}
+          className="mb-4 bg-gradient-to-r from-rose-500 via-red-500 to-pink-500 hover:from-rose-600 hover:via-red-600 hover:to-pink-600"
+          size={"lg"}
+        >
           Get Started
           <ArrowUpRight className="w-3.5 h-3.5" />
         </Button>

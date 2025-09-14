@@ -102,6 +102,10 @@ export default function ProjectTable({
                     >
                       <span className="font-semibold">{project.title}</span>
                     </Link>
+                    <span className="text-sm text-gray-500 line-clamp-1">
+                      {" "}
+                      {project.description}
+                    </span>
                   </div>
                 </TableCell>
                 <TableCell>

@@ -1,30 +1,21 @@
-/**
- * An Array of routes that are accessible to the public
- */
+// An Array of routes that are accessible to the public
 
 export const publicRoutes: string[] = [];
 
-/**
- * An Array of routes that are protected
- */
+// An Array of routes that are protected
 
 export const protectedRoutes: string[] = ["/"];
 
-/**
- * An Array of routes that are accessible to the public
- * Routes that start with this (/api/auth) prefix do not require authentication
- */
+// An Array of routes that are accessible to the public
+//  Routes that start with this (/api/auth) prefix do not require authentication
 
 export const authRoutes: string[] = [
   "/auth/sign-in", // Added leading slash
 ];
 
-/**
- * An Array of routes that are accessible to the public
- * Routes that start with this (/api/auth) prefix do not require authentication
- * @type {string}
- */
+// An Array of routes that are accessible to the public
+// Routes that start with this (/api/auth) prefix do not require authentication @type {string}
 
 export const apiAuthPrefix: string = "/api/auth";
 
-export const DEFAULT_LOGIN_REDIRECT = "/";  
+export const DEFAULT_LOGIN_REDIRECT = "/";

@@ -1,27 +1,23 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
 import authConfig from "./auth.config";
-import { getAccountByUserId, getUserById } from "./features/auth/actions";
+import { getUserById } from "./features/auth/actions";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (!user || !account) return false;
-
       const existingUser = await db.user.findUnique({
         where: { email: user.email! },
       });
-
       if (!existingUser) {
         const newUser = await db.user.create({
           data: {
             email: user.email!,
             name: user.name,
             image: user.image,
-
             accounts: {
               // @ts-ignore
               create: {
@@ -97,7 +93,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return session;
     },
   },
-
   secret: process.env.AUTH_SECRET,
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },

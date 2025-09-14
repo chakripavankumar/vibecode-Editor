@@ -66,7 +66,7 @@ const templates: TemplateOption[] = [
     name: "Next.js",
     description:
       "The React framework for production with server-side rendering and static site generation",
-    icon: "/nextjs-icon.svg",
+    icon: "/next.svg",
     color: "#000000",
     popularity: 4,
     tags: ["React", "SSR", "Fullstack"],
@@ -260,7 +260,7 @@ const TemplateSelectionModal = ({
                 <Tabs
                   defaultValue="all"
                   className="w-full sm:w-auto"
-                  onValueChange={(value) => setCategory(value as any)}
+                  onValueChange={(value) => setCategory(value as any )}
                 >
                   <TabsList className="grid grid-cols-4 w-full sm:w-[400px]">
                     <TabsTrigger value="all">All</TabsTrigger>
