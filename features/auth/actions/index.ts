@@ -9,7 +9,7 @@ export const getUserById = async (id: string) => {
       where: { id },
       include: { accounts: true },
     });
-    return user
+    return user;
   } catch (error) {
     console.log(error);
     return null;
@@ -24,14 +24,13 @@ export const getAccountByUserId = async (userId: string) => {
       },
     });
     return account;
-    return account;
   } catch (error) {
     console.log(error);
     return null;
   }
 };
 
-export const currentUser = async()=>{
-    const user =await auth();
-    return user?.user
-}
+export const currentUser = async () => {
+  const user = await auth();
+  return user?.user;
+};

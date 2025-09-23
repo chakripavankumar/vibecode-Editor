@@ -21,7 +21,7 @@ export default function Home() {
       </p>
       <Link href={"/dashboard"}>
         <Button
-          variant={"default"}
+          variant={"brand"}
           className="mb-4 bg-gradient-to-r from-rose-500 via-red-500 to-pink-500 hover:from-rose-600 hover:via-red-600 hover:to-pink-600"
           size={"lg"}
         >
