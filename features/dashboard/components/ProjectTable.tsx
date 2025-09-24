@@ -32,6 +32,29 @@ import {
   Eye,
 } from "lucide-react";
 import { Project } from "../types";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@radix-ui/react-dialog";
+import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+} from "@radix-ui/react-alert-dialog";
 
 interface ProjectTableProps {
   projects: Project[];
@@ -63,19 +86,71 @@ export default function ProjectTable({
 
   const handleDuplicateProject = async (project: Project) => {
     if (!onDuplicateProject) return;
-
     setIsLoading(true);
     try {
+      await onDuplicateProject(project.id);
+      toast.success("project duplicated sucessfully");
     } catch (error) {
+      toast.error("failed to duplicate project");
+      console.error(error);
     } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleEditClick = async (project: Project) => {};
+  const handleEditClick = async (project: Project) => {
+    setSelectedProject(project);
+    setEditData({
+      title: project.title,
+      description: project.description || " ",
+    });
+    setEditDialogOpen(true);
+  };
 
-  const copyProjectUrl = async (projectId: string) => {};
+  const handleUpdateProject = async () => {
+    if (!selectedProject || !onUpdateProject) return;
 
-  const handleDeleteClick = async (project: Project) => {};
+    setIsLoading(true);
+    try {
+      await onUpdateProject(selectedProject.id, editData);
+      setEditDialogOpen(false);
+      setSelectedProject(null);
+      toast.success("project Updated Succesfully");
+    } catch (error) {
+      toast.error("fialed to update the project");
+      console.error("Error updateing Project:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const copyProjectUrl = async (projectId: string) => {
+    const url = `${window.location.origin}/playground/${projectId}`;
+    navigator.clipboard.writeText(url);
+    toast.success("Project Url copied");
+  };
+
+  const handleDeleteClick = async (project: Project) => {
+    setSelectedProject(project);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteProject = async () => {
+    if (!selectedProject || !onDeleteProject) return;
+
+    setIsLoading(true);
+    try {
+      await onDeleteProject(selectedProject.id);
+      setDeleteDialogOpen(false);
+      setSelectedProject(null);
+      toast.success("Project deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete project");
+      console.error("Error deleting project:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -199,6 +274,85 @@ export default function ProjectTable({
           </TableBody>
         </Table>
       </div>
+      <Dialog open={editDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit Project</DialogTitle>
+            <DialogDescription>
+              Make changes to your project details here. Click save When
+              you&apos;re done
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="title"> Project Title</Label>
+              <Input
+                id="title"
+                value={editData.title}
+                onChange={(e) =>
+                  setEditData((prev) => ({ ...prev, title: e.target.value }))
+                }
+                placeholder="Enter Project title"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="title"> Project Description</Label>
+              <Textarea
+                id="Description"
+                value={editData.description}
+                onChange={(e) =>
+                  setEditData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+                placeholder="Enter Project Description"
+                rows={3}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant={"outline"}
+              onClick={() => setEditDialogOpen(false)}
+              disabled={isLoading}
+            >
+              {" "}
+              cancel
+            </Button>
+            <Button
+              type="button"
+              variant={"brand"}
+              onClick={handleUpdateProject}
+            >
+              {isLoading ? "Saving..." : " Save changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Project</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{selectedProject?.title}"? This
+              action cannot be undone. All files and data associated with this
+              project will be permanently removed.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteProject}
+              disabled={isLoading}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isLoading ? "Deleting..." : "Delete Project"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

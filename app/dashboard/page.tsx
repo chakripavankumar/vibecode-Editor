@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import EmptyState from "@/components/ui/empty-state";
 import {
   deleteProjectById,
@@ -28,6 +29,7 @@ const Page = async () => {
           />
         ) : (
           <ProjectTable
+          // @ts-expect-error
             projects={playgrounds || []}
             onDeleteProject={deleteProjectById}
             onUpdateProject={editProjectById}

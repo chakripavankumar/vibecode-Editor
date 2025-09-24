@@ -102,9 +102,7 @@ export const duplicateProjectById = async (id: string) => {
         userId: originalPlayground.userId,
       },
     });
-
     revalidatePath("/dashboard");
-
     return duplicatedPlayground;
   } catch (error) {
     console.error(error);
