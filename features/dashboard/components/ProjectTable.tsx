@@ -217,9 +217,7 @@ export default function ProjectTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem asChild>
-                        {/* <MarkedToggleButton markedForRevision={project.Starmark[0]?.isMarked} id={project.id} /> */}
-                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild></DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Link
                           href={`/playground/${project.id}`}
@@ -336,7 +334,7 @@ export default function ProjectTable({
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Project</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{selectedProject?.title}"? This
+              Are you sure you want to delete {selectedProject?.title}? This
               action cannot be undone. All files and data associated with this
               project will be permanently removed.
             </AlertDialogDescription>

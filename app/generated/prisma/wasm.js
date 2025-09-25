@@ -148,6 +148,14 @@ exports.Prisma.PlaygroundScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TemplateFileScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  playgroundId: 'playgroundId'
+};
+
 exports.Prisma.StarMarkScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -185,6 +193,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Playground: 'Playground',
+  TemplateFile: 'TemplateFile',
   StarMark: 'StarMark'
 };
 
