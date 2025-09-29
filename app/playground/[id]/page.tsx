@@ -13,6 +13,7 @@ const Page = () => {
     usePlayground(id);
   console.log(playgroundData);
   console.log(templateData);
+       console.log(playgroundData?.title);
 
   return (
     <div>
@@ -25,7 +26,9 @@ const Page = () => {
                 <Separator orientation="vertical" className="mr-2 h-4">
                   <div className="flex flex-1 items-center gap-2">
                     <div className="flex flex-col flex-1">
-                      {playgroundData?.title || "code playground"}
+                 
+                      
+                      {playgroundData?.title}
                     </div>
                   </div>
                 </Separator>
