@@ -1,57 +1,42 @@
 import * as fs from "fs";
 import * as path from "path";
 
-/**
- * Represents a file in the template structure
- */
+// Represents a file in the template structure
 export interface TemplateFile {
   filename: string;
   fileExtension: string;
   content: string;
 }
 
-/**
- * Represents a folder in the template structure which can contain files and other folders
- */
+// Represents a folder in the template structure which can contain files and other folders
 export interface TemplateFolder {
   folderName: string;
   items: (TemplateFile | TemplateFolder)[];
 }
-
-/**
- * Type representing either a file or folder in the template structure
- */
+// Type representing either a file or folder in the template structure
 export type TemplateItem = TemplateFile | TemplateFolder;
 
-/**
- * Options for scanning template directories
- */
+//  Options for scanning template directories
 interface ScanOptions {
-  /**
-   * Files to ignore (exact filenames with extensions)
-   */
-  ignoreFiles?: string[];
+  // Files to ignore (exact filenames with extensions)
 
-  /**
-   * Folders to ignore (exact folder names)
-   */
+  ignoreFiles?: string[];
+  // Folders to ignore (exact folder names)
+
   ignoreFolders?: string[];
 
-  /**
-   * File patterns to ignore (regex patterns)
-   */
+  // File patterns to ignore (regex patterns)
+
   ignorePatterns?: RegExp[];
 
-  /**
-   * Maximum size of file to include content (in bytes)
-   * Files larger than this will have a placeholder message instead of content
-   */
+  //  * Maximum size of file to include content (in bytes)
+  //  * Files larger than this will have a placeholder message instead of content
+
   maxFileSize?: number;
 }
 
 /**
  * Scans a template directory and returns a structured JSON representation
- *
  * @param templatePath - Path to the template directory
  * @param options - Scanning options to customize behavior
  * @returns Promise resolving to the template structure as JSON
@@ -139,7 +124,6 @@ export async function scanTemplateDirectory(
 
 /**
  * Process a directory and its contents recursively
- *
  * @param folderName - Name of the current folder
  * @param folderPath - Path to the current folder
  * @param options - Scanning options
@@ -166,7 +150,6 @@ async function processDirectory(
       if (entry.isDirectory()) {
         // Skip ignored folders
         if (options.ignoreFolders?.includes(entryName)) {
-          console.log(`Skipping ignored folder: ${entryPath}`);
           continue;
         }
 
@@ -176,7 +159,6 @@ async function processDirectory(
       } else if (entry.isFile()) {
         // Skip ignored files
         if (options.ignoreFiles?.includes(entryName)) {
-          console.log(`Skipping ignored file: ${entryPath}`);
           continue;
         }
 
@@ -185,7 +167,6 @@ async function processDirectory(
           pattern.test(entryName)
         );
         if (shouldSkip) {
-          console.log(`Skipping file matching ignore pattern: ${entryPath}`);
           continue;
         }
 
@@ -258,12 +239,12 @@ export async function saveTemplateStructureToJson(
     await fs.promises.mkdir(outputDir, { recursive: true });
 
     // Write the JSON file
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const data = await fs.promises.writeFile(
       outputPath,
       JSON.stringify(templateStructure, null, 2),
       "utf8"
     );
-    console.log(`Template structure saved to ${outputPath}`);
   } catch (error) {
     throw new Error(
       `Error saving template structure: ${(error as Error).message}`
@@ -286,19 +267,16 @@ export async function readTemplateStructureFromJson(
 
 /**
  * Example usage:
- *
- * // Basic usage with default options
+ * Basic usage with default options
  * const templateStructure = await scanTemplateDirectory('./templates/react-app');
- *
- * // With custom options
+ * With custom options
  * const customOptions = {
  *   ignoreFiles: ['README.md', 'CHANGELOG.md'],
  *   ignoreFolders: ['docs', 'examples'],
  *   maxFileSize: 500 * 1024 // 500KB
  * };
  * const templateStructure = await scanTemplateDirectory('./templates/react-app', customOptions);
- *
- * // Saving directly to a JSON file with custom options
+ *  Saving directly to a JSON file with custom options
  * await saveTemplateStructureToJson(
  *   './templates/react-app',
  *   './output/react-app-template.json',
