@@ -3,13 +3,19 @@ import { toast } from "sonner";
 import { TemplateFile, TemplateFolder } from "../types/types";
 import { generateFileId } from "../lib";
 
+interface OpenFile extends TemplateFile {
+  id: string;
+  hasUnsavedChanges: boolean;
+  content: string;
+  originalContent: string;
+}
 interface FileExplorerState {
   playgroundId: string;
   templateData: TemplateFolder | null;
   openFiles: OpenFile[];
   activeFileId: string | null;
   editorContent: string;
-  
+
   setPlaygroundId: (id: string) => void;
   setTemplateData: (data: TemplateFolder | null) => void;
   setEditorContent: (content: string) => void;
@@ -56,14 +62,6 @@ interface FileExplorerState {
   ) => Promise<void>;
   updateFileContent: (fileId: string, content: string) => void;
 }
-
-interface OpenFile extends TemplateFile {
-  id: string;
-  hasUnsavedChanges: boolean;
-  content: string;
-  originalContent: string;
-}
-
 export const useFileExplorer = create<FileExplorerState>((set, get) => ({
   templateData: null,
   playgroundId: "",
