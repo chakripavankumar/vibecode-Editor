@@ -105,11 +105,9 @@ export const useFileExplorer = create<FileExplorerState>((set, get) => ({
   closeFile: (fileId) => {
     const { openFiles, activeFileId } = get();
     const newFiles = openFiles.filter((f) => f.id !== fileId);
-
     // If we're closing the active file, switch to another file or clear active
     let newActiveFileId = activeFileId;
     let newEditorContent = get().editorContent;
-
     if (activeFileId === fileId) {
       if (newFiles.length > 0) {
         // Switch to the last file in the list
@@ -122,7 +120,6 @@ export const useFileExplorer = create<FileExplorerState>((set, get) => ({
         newEditorContent = "";
       }
     }
-
     set({
       openFiles: newFiles,
       activeFileId: newActiveFileId,

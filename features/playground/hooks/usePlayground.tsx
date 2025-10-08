@@ -4,7 +4,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { getPlaygroundById, SaveUpdatedCode } from "../actions/index";
-import { TemplateFolder } from "../lib/path-to-json";
+import { TemplateFolder } from "../types/types";
+
 interface PlaygroundData {
   id: string;
   title?: string;
