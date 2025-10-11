@@ -17,4 +17,3 @@ const LogoutButton = ({ children }: LogoutButtonProps) => {
 };
 
 export default LogoutButton;
- 

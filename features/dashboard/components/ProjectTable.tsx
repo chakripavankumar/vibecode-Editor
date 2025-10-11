@@ -155,7 +155,7 @@ export default function ProjectTable({
 
   return (
     <>
-      <div className="border rounded-lg overflow-hidden">
+      <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -178,7 +178,7 @@ export default function ProjectTable({
                     >
                       <span className="font-semibold">{project.title}</span>
                     </Link>
-                    <span className="text-sm text-gray-500 line-clamp-1">
+                    <span className="line-clamp-1 text-sm text-gray-500">
                       {" "}
                       {project.description}
                     </span>
@@ -187,7 +187,7 @@ export default function ProjectTable({
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className="bg-[#E93F3F15] text-[#E93F3F] border-[#E93F3F]"
+                    className="border-[#E93F3F] bg-[#E93F3F15] text-[#E93F3F]"
                   >
                     {project.template}
                   </Badge>
@@ -197,7 +197,7 @@ export default function ProjectTable({
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full overflow-hidden">
+                    <div className="h-8 w-8 overflow-hidden rounded-full">
                       <Image
                         src={project.user.image || "/placeholder.svg"}
                         alt={project.user.name}
@@ -224,7 +224,7 @@ export default function ProjectTable({
                           href={`/playground/${project.id}`}
                           className="flex items-center"
                         >
-                          <Eye className="h-4 w-4 mr-2" />
+                          <Eye className="mr-2 h-4 w-4" />
                           Open Project
                         </Link>
                       </DropdownMenuItem>
@@ -234,7 +234,7 @@ export default function ProjectTable({
                           target="_blank"
                           className="flex items-center"
                         >
-                          <ExternalLink className="h-4 w-4 mr-2" />
+                          <ExternalLink className="mr-2 h-4 w-4" />
                           Open in New Tab
                         </Link>
                       </DropdownMenuItem>
@@ -242,19 +242,19 @@ export default function ProjectTable({
                       <DropdownMenuItem
                         onClick={() => handleEditClick(project)}
                       >
-                        <Edit3 className="h-4 w-4 mr-2" />
+                        <Edit3 className="mr-2 h-4 w-4" />
                         Edit Project
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleDuplicateProject(project)}
                       >
-                        <Copy className="h-4 w-4 mr-2" />
+                        <Copy className="mr-2 h-4 w-4" />
                         Duplicate
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => copyProjectUrl(project.id)}
                       >
-                        <Download className="h-4 w-4 mr-2" />
+                        <Download className="mr-2 h-4 w-4" />
                         Copy URL
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
@@ -262,7 +262,7 @@ export default function ProjectTable({
                         onClick={() => handleDeleteClick(project)}
                         className="text-destructive focus:text-destructive"
                       >
-                        <Trash2 className="h-4 w-4 mr-2" />
+                        <Trash2 className="mr-2 h-4 w-4" />
                         Delete Project
                       </DropdownMenuItem>
                     </DropdownMenuContent>

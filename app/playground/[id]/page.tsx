@@ -66,17 +66,17 @@ const Page = () => {
       file: TemplateFile,
       newFileName: string,
       newExtension: string,
-      parentPath: string
+      parentPath: string,
     ) => {
       return handleRenameFile(
         file,
         newFileName,
         newExtension,
         parentPath,
-        saveTemplateData
+        saveTemplateData,
       );
     },
-    [handleRenameFile, saveTemplateData]
+    [handleRenameFile, saveTemplateData],
   );
   const wrappedHandleRenameFolder = useCallback(
     (folder: TemplateFolder, newFolderName: string, parentPath: string) => {
@@ -84,10 +84,10 @@ const Page = () => {
         folder,
         newFolderName,
         parentPath,
-        saveTemplateData
+        saveTemplateData,
       );
     },
-    [handleRenameFolder, saveTemplateData]
+    [handleRenameFolder, saveTemplateData],
   );
 
   return (
@@ -105,11 +105,11 @@ const Page = () => {
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <div className="flex flex-1 items-center gap-2">
-              <div className="flex flex-col flex-1">
+              <div className="flex flex-1 flex-col">
                 <h1 className="text-sm font-medium">
                   {playgroundData?.title || "Code Playground"}
                 </h1>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   {openFiles.length} File(s) open
                   {hasUnsavedChanges && " • Unsaved changes"}
                 </p>
@@ -172,19 +172,19 @@ const Page = () => {
           </header>
           <div className="h-[calc(100vh-4rem)]">
             {openFiles.length > 0 ? (
-              <div className="h-full flex flex-col">
-                <div className="border-b bg-muted/30">
+              <div className="flex h-full flex-col">
+                <div className="bg-muted/30 border-b">
                   <Tabs
                     value={activeFileId || ""}
                     onValueChange={setActiveFileId}
                   >
-                    <div className="flex items-center justify-between px-4 py-f2">
+                    <div className="py-f2 flex items-center justify-between px-4">
                       <TabsList className="h-8 bg-transparent p-0">
                         {openFiles.map((file) => (
                           <TabsTrigger
                             key={file.id}
                             value={file.id}
-                            className="relative h-8 px-3 data-[state=active]:bg-background data-[state=active]:shadow-sm group"
+                            className="data-[state=active]:bg-background group relative h-8 px-3 data-[state=active]:shadow-sm"
                           >
                             <div className="flex items-center gap-2">
                               <FileText className="size-3" />
@@ -195,7 +195,7 @@ const Page = () => {
                                 <span className="h-2 w-2 rounded-full bg-orange-500" />
                               )}
                               <span
-                                className="ml-2 h-4 w-4 hover:bg-destructive hover:text-destructive-foreground rounded-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                                className="hover:bg-destructive hover:text-destructive-foreground ml-2 flex h-4 w-4 cursor-pointer items-center justify-center rounded-sm opacity-0 transition-opacity group-hover:opacity-100"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   closeFile(file.id);
@@ -212,7 +212,7 @@ const Page = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col h-full items-center justify-center text-muted-foreground gap-4">
+              <div className="text-muted-foreground flex h-full flex-col items-center justify-center gap-4">
                 <FileText className="size-16 text-gray-300" />
                 <div className="text-center">
                   <p className="text-lg font-medium"> No Files Open </p>

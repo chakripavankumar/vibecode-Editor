@@ -36,7 +36,7 @@ const UserButton = () => {
           <DropdownMenuSeparator />
           <LogoutButton>
             <DropdownMenuItem>
-              <LogOut className="h-4 w-4 mr-2" />
+              <LogOut className="mr-2 h-4 w-4" />
               LogOut
             </DropdownMenuItem>
           </LogoutButton>

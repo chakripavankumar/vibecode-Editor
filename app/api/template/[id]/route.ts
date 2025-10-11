@@ -20,7 +20,7 @@ function validateJsonStructure(data: unknown): boolean {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
 
@@ -56,20 +56,20 @@ export async function GET(
     if (!validateJsonStructure(result.items)) {
       return Response.json(
         { error: "Invalid JSON structure" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     await fs.unlink(outputFile);
     return Response.json(
       { success: true, templateJson: result },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error generating template JSON:", error);
     return Response.json(
       { error: "Failed to generate template" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

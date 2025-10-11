@@ -3,7 +3,6 @@ import { currentUser } from "@/features/auth/actions";
 import { db } from "@/lib/db";
 import { TemplateFolder } from "../types/types";
 
-
 export const getPlaygroundById = async (id: string) => {
   try {
     const playground = await db.playground.findUnique({
@@ -26,7 +25,7 @@ export const getPlaygroundById = async (id: string) => {
 
 export const SaveUpdatedCode = async (
   playgroundId: string,
-  data: TemplateFolder
+  data: TemplateFolder,
 ) => {
   const user = await currentUser();
   if (!user) return null;

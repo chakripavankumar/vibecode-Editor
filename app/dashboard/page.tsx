@@ -15,12 +15,12 @@ const Page = async () => {
   const playgrounds = await getAllPlaygroundForUser();
 
   return (
-    <div className="flex flex-col justify-start items-center min-h-screen mx-auto max--w-7xl px-4 py-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+    <div className="max--w-7xl mx-auto flex min-h-screen flex-col items-center justify-start px-4 py-10">
+      <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
         <AddNewButton />
         <AddRepoButton />
       </div>
-      <div className="mt-10 flex flex-col justify-center items-center w-full">
+      <div className="mt-10 flex w-full flex-col items-center justify-center">
         {playgrounds && playgrounds.length === 0 ? (
           <EmptyState
             title="No Projects Found"
@@ -29,7 +29,7 @@ const Page = async () => {
           />
         ) : (
           <ProjectTable
-          // @ts-expect-error
+            // @ts-expect-error
             projects={playgrounds || []}
             onDeleteProject={deleteProjectById}
             onUpdateProject={editProjectById}

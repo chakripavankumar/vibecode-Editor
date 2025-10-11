@@ -47,12 +47,12 @@ interface TemplateFileTreeProps {
     file: TemplateFile,
     newFilename: string,
     newExtension: string,
-    parentPath: string
+    parentPath: string,
   ) => void;
   onRenameFolder?: (
     folder: TemplateFolder,
     newFolderName: string,
-    parentPath: string
+    parentPath: string,
   ) => void;
 }
 
@@ -92,11 +92,11 @@ const TemplateFileTree = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={handleAddRootFile}>
-                <FilePlus className="h-4 w-4 mr-2" />
+                <FilePlus className="mr-2 h-4 w-4" />
                 New File
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleAddRootFolder}>
-                <FolderPlus className="h-4 w-4 mr-2" />
+                <FolderPlus className="mr-2 h-4 w-4" />
                 New Folder
               </DropdownMenuItem>
             </DropdownMenuContent>

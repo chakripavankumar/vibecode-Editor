@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Chrome, Github } from "lucide-react";
 
-
 async function handleGoogleSignIn() {
   "use server";
   await signIn("google");
@@ -25,7 +24,7 @@ const SignInFormClient = () => {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">
+        <CardTitle className="text-center text-2xl font-bold">
           Sign In
         </CardTitle>
         <CardDescription className="text-center">
@@ -49,13 +48,13 @@ const SignInFormClient = () => {
       </CardContent>
 
       <CardFooter>
-        <p className="text-sm text-center text-gray-500 dark:text-gray-400 w-full">
+        <p className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
           By signing in, you agree to our{" "}
-          <a href="#" className="underline hover:text-primary">
+          <a href="#" className="hover:text-primary underline">
             Terms of Service
           </a>{" "}
           and{" "}
-          <a href="#" className="underline hover:text-primary">
+          <a href="#" className="hover:text-primary underline">
             Privacy Policy
           </a>
           .

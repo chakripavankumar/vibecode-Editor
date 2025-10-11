@@ -59,12 +59,12 @@ interface TemplateNodeProps {
     file: TemplateFile,
     newFilename: string,
     newExtension: string,
-    parentPath: string
+    parentPath: string,
   ) => void;
   onRenameFolder?: (
     folder: TemplateFolder,
     newFolderName: string,
-    parentPath: string
+    parentPath: string,
   ) => void;
 }
 
@@ -120,13 +120,13 @@ const TemplateNode = ({
     };
     return (
       <SidebarMenuItem>
-        <div className="flex items-center group">
+        <div className="group flex items-center">
           <SidebarMenuButton
             isActive={isSelected}
             onClick={() => {}}
             className="flex-1"
           >
-            <File className="h-4 w-4 mr-2 shrink-0" />
+            <File className="mr-2 h-4 w-4 shrink-0" />
             <span> {fileName}</span>
           </SidebarMenuButton>
           <DropdownMenu>
@@ -134,14 +134,14 @@ const TemplateNode = ({
               <Button
                 variant={"ghost"}
                 size={"icon"}
-                className="h-6 w-6 opacity-0  group-hover:opacity-100 transition-opacity"
+                className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <MoreHorizontal className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={handleRename}>
-                <Edit3 className="h-4 w-4 mr-2" />
+                <Edit3 className="mr-2 h-4 w-4" />
                 Rename
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -240,11 +240,11 @@ const TemplateNode = ({
           onOpenChange={setIsOpen}
           className="group/collapsible [&[data-state=open]>div>button>svg:first-child]:rotate-90"
         >
-          <div className="flex items-center group">
+          <div className="group flex items-center">
             <CollapsibleTrigger asChild>
               <SidebarMenuButton className="flex-1">
                 <ChevronRight className="transition-transform" />
-                <Folder className="h-4 w-4 mr-2 shrink-0 " />
+                <Folder className="mr-2 h-4 w-4 shrink-0" />
                 <span>{folderName}</span>
               </SidebarMenuButton>
             </CollapsibleTrigger>
@@ -253,18 +253,18 @@ const TemplateNode = ({
                 <Button
                   variant={"ghost"}
                   size={"icon"}
-                  className="h-6 w-6 opacity-0  group-hover:opacity-100 transition-opacity"
+                  className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
                 >
                   <MoreHorizontal className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={handleAddFile}>
-                  <FilePlus className="h-4 w-4 mr-2" />
+                  <FilePlus className="mr-2 h-4 w-4" />
                   New File
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleAddFolder}>
-                  <FilePlus className="h-4 w-4 mr-2" />
+                  <FilePlus className="mr-2 h-4 w-4" />
                   New Folder
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -272,7 +272,7 @@ const TemplateNode = ({
                   onClick={handleRename}
                   className="text-destructive"
                 >
-                  <Edit3 className="h-4 w-4 mr-2" />
+                  <Edit3 className="mr-2 h-4 w-4" />
                   Rename
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -280,7 +280,7 @@ const TemplateNode = ({
                   onClick={handleDelete}
                   className="text-destructive"
                 >
-                  <Trash2 className="h-4 w-4 mr-2" />
+                  <Trash2 className="mr-2 h-4 w-4" />
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>

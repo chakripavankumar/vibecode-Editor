@@ -7,10 +7,7 @@ import { getAccountByUserId, getUserById } from "./features/auth/actions";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
-    /**
-     * Handle user creation and account linking after a successful sign-in
-     */
-    async signIn({ user, account}) {
+    async signIn({ user, account }) {
       if (!user || !account) return false;
 
       // Check if the user already exists
@@ -44,9 +41,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           },
         });
 
-        if (!newUser) return false; // Return false if user creation fails
+        if (!newUser) return false;
       } else {
-        // Link the account if user exists
         const existingAccount = await db.account.findUnique({
           where: {
             provider_providerAccountId: {
@@ -55,8 +51,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             },
           },
         });
-
-        // If the account does not exist, create it
         if (!existingAccount) {
           await db.account.create({
             data: {
@@ -80,12 +74,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return true;
     },
 
-    async jwt({ token}) {
+    async jwt({ token }) {
       if (!token.sub) return token;
       const existingUser = await getUserById(token.sub);
 
       if (!existingUser) return token;
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const exisitingAccount = await getAccountByUserId(existingUser.id);
 
       token.name = existingUser.name;

@@ -72,7 +72,7 @@ export const deleteProjectById = async (id: string) => {
 
 export const editProjectById = async (
   id: string,
-  data: { title: string; description: string }
+  data: { title: string; description: string },
 ) => {
   try {
     await db.playground.update({

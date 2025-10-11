@@ -32,7 +32,7 @@ interface ScanOptions {
  */
 export async function scanTemplateDirectory(
   templatePath: string,
-  options: ScanOptions = {}
+  options: ScanOptions = {},
 ): Promise<TemplateFolder> {
   // Set default options
   const defaultOptions: ScanOptions = {
@@ -121,7 +121,7 @@ export async function scanTemplateDirectory(
 async function processDirectory(
   folderName: string,
   folderPath: string,
-  options: ScanOptions
+  options: ScanOptions,
 ): Promise<TemplateFolder> {
   try {
     // Read directory contents
@@ -153,7 +153,7 @@ async function processDirectory(
 
         // Check against regex patterns
         const shouldSkip = options.ignorePatterns?.some((pattern) =>
-          pattern.test(entryName)
+          pattern.test(entryName),
         );
         if (shouldSkip) {
           continue;
@@ -198,7 +198,7 @@ async function processDirectory(
     };
   } catch (error) {
     throw new Error(
-      `Error processing directory '${folderPath}': ${(error as Error).message}`
+      `Error processing directory '${folderPath}': ${(error as Error).message}`,
     );
   }
 }
@@ -214,13 +214,13 @@ async function processDirectory(
 export async function saveTemplateStructureToJson(
   templatePath: string,
   outputPath: string,
-  options?: ScanOptions
+  options?: ScanOptions,
 ): Promise<void> {
   try {
     // Scan the template directory
     const templateStructure = await scanTemplateDirectory(
       templatePath,
-      options
+      options,
     );
 
     // Ensure the output directory exists
@@ -232,24 +232,24 @@ export async function saveTemplateStructureToJson(
     const data = await fs.promises.writeFile(
       outputPath,
       JSON.stringify(templateStructure, null, 2),
-      "utf8"
+      "utf8",
     );
   } catch (error) {
     throw new Error(
-      `Error saving template structure: ${(error as Error).message}`
+      `Error saving template structure: ${(error as Error).message}`,
     );
   }
 }
 
 export async function readTemplateStructureFromJson(
-  filePath: string
+  filePath: string,
 ): Promise<TemplateFolder> {
   try {
     const data = await fs.promises.readFile(filePath, "utf8");
     return JSON.parse(data) as TemplateFolder;
   } catch (error) {
     throw new Error(
-      `Error reading template structure: ${(error as Error).message}`
+      `Error reading template structure: ${(error as Error).message}`,
     );
   }
 }

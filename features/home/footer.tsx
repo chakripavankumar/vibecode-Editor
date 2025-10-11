@@ -6,14 +6,14 @@ export function Footer() {
     {
       href: "#",
       icon: (
-        <LucideGithub className="w-5 h-5 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" />
+        <LucideGithub className="h-5 w-5 text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100" />
       ),
     },
   ];
 
   return (
     <footer className="border-t border-zinc-200 dark:border-zinc-800">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 flex flex-col items-center space-y-6 text-center">
+      <div className="mx-auto flex max-w-7xl flex-col items-center space-y-6 px-4 py-8 text-center sm:px-6">
         {/* Social Links */}
         <div className="flex gap-4">
           {socialLinks.map((link, index) => (

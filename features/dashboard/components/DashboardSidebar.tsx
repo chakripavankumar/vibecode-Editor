@@ -60,16 +60,16 @@ const DashboardSidebar = ({
 }) => {
   const pathname = usePathname();
   const [starredPlaygrounds, setStarredPlaygrounds] = useState(
-    initialPlaygroundData.filter((p) => p.starred)
+    initialPlaygroundData.filter((p) => p.starred),
   );
   const [recentPlaygrounds, setRecentPlaygrounds] = useState(
-    initialPlaygroundData
+    initialPlaygroundData,
   );
   return (
     <div>
-      <Sidebar variant="inset" collapsible="icon" className="border border-r  ">
+      <Sidebar variant="inset" collapsible="icon" className="border border-r">
         <SidebarHeader>
-          <div className="flex items-center gap-2 px-4 py-3 justify-center">
+          <div className="flex items-center justify-center gap-2 px-4 py-3">
             <Image src={"/logo.svg"} alt="logo" height={60} width={60} />
           </div>
         </SidebarHeader>
@@ -104,7 +104,7 @@ const DashboardSidebar = ({
           </SidebarGroup>
           <SidebarGroup>
             <SidebarGroupLabel>
-              <Star className=" size-4 mr-2" />
+              <Star className="mr-2 size-4" />
               starred
             </SidebarGroupLabel>
             <SidebarGroupAction title="Add starred Playground ">
@@ -114,7 +114,7 @@ const DashboardSidebar = ({
               <SidebarMenu>
                 {starredPlaygrounds.length === 0 &&
                 recentPlaygrounds.length === 0 ? (
-                  <div className="text-muted-foreground text-center py-4 w-full">
+                  <div className="text-muted-foreground w-full py-4 text-center">
                     {" "}
                     create your playground
                   </div>
@@ -145,7 +145,7 @@ const DashboardSidebar = ({
           </SidebarGroup>
           <SidebarGroup>
             <SidebarGroupLabel>
-              <History className="h-4 w-4 mr-2" />
+              <History className="mr-2 h-4 w-4" />
               Recent
             </SidebarGroupLabel>
             <SidebarGroupAction title="Create new playground">
@@ -181,7 +181,7 @@ const DashboardSidebar = ({
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild tooltip="View all">
                     <Link href="/playgrounds">
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-muted-foreground text-sm">
                         View all playgrounds
                       </span>
                     </Link>

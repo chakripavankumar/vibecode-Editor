@@ -1,5 +1,8 @@
 {
     "codetime.statusBarInfo": "Today",
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "notebook.defaultFormatter": "esbenp.prettier-vscode"
+    "notebook.defaultFormatter": "esbenp.prettier-vscode",
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma"
+    }
 }

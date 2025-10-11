@@ -3,7 +3,7 @@ import { TemplateFile, TemplateFolder } from "../types/types";
 export function findFilePath(
   file: TemplateFile,
   folder: TemplateFolder,
-  pathSoFar: string[] = []
+  pathSoFar: string[] = [],
 ): string | null {
   for (const item of folder.items) {
     if ("folderName" in item) {
@@ -26,7 +26,7 @@ export function findFilePath(
 
 export const generateFileId = (
   file: TemplateFile,
-  rootFolder: TemplateFolder
+  rootFolder: TemplateFolder,
 ): string => {
   const path = findFilePath(file, rootFolder)?.replace(/^\/+/, "") || "";
   const extension = file.fileExtension?.trim();

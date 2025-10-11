@@ -23,7 +23,7 @@ interface UsePlaygroundReturn {
 
 export const usePlayground = (id: string): UsePlaygroundReturn => {
   const [playgroundData, setPlaygroundData] = useState<PlaygroundData | null>(
-    null
+    null,
   );
   const [templateData, setTemplateData] = useState<TemplateFolder | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +62,7 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
           templateRes.templateJson || {
             folderName: "Root",
             items: [],
-          }
+          },
         );
       }
 
@@ -88,7 +88,7 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
         throw error;
       }
     },
-    [id]
+    [id],
   );
 
   useEffect(() => {

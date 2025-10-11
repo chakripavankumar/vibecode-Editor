@@ -151,7 +151,7 @@ const TemplateSelectionModal = ({
       template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       template.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       template.tags.some((tag) =>
-        tag.toLowerCase().includes(searchQuery.toLowerCase())
+        tag.toLowerCase().includes(searchQuery.toLowerCase()),
       );
 
     const matchesCategory =
@@ -228,11 +228,11 @@ const TemplateSelectionModal = ({
         }
       }}
     >
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[800px]">
         {step === "select" ? (
           <>
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-[#e93f3f] flex items-center gap-2">
+              <DialogTitle className="flex items-center gap-2 text-2xl font-bold text-[#e93f3f]">
                 <Plus size={24} className="text-[#e93f3f]" />
                 Select a Template
               </DialogTitle>
@@ -243,10 +243,10 @@ const TemplateSelectionModal = ({
             </DialogHeader>
 
             <div className="flex flex-col gap-6 py-4">
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row">
                 <div className="relative flex-1">
                   <Search
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 outline-none"
+                    className="absolute top-1/2 left-3 -translate-y-1/2 transform text-gray-400 outline-none"
                     size={18}
                   />
                   <Input
@@ -260,9 +260,9 @@ const TemplateSelectionModal = ({
                 <Tabs
                   defaultValue="all"
                   className="w-full sm:w-auto"
-                  onValueChange={(value) => setCategory(value as any )}
+                  onValueChange={(value) => setCategory(value as any)}
                 >
-                  <TabsList className="grid grid-cols-4 w-full sm:w-[400px]">
+                  <TabsList className="grid w-full grid-cols-4 sm:w-[400px]">
                     <TabsTrigger value="all">All</TabsTrigger>
                     <TabsTrigger value="frontend">Frontend</TabsTrigger>
                     <TabsTrigger value="backend">Backend</TabsTrigger>
@@ -275,18 +275,16 @@ const TemplateSelectionModal = ({
                 value={selectedTemplate || ""}
                 onValueChange={handleSelectTemplate}
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {filteredTemplates.length > 0 ? (
                     filteredTemplates.map((template) => (
                       <div
                         key={template.id}
-                        className={`relative flex p-6 border rounded-lg cursor-pointer
-                          transition-all duration-300 hover:scale-[1.02]
-                          ${
-                            selectedTemplate === template.id
-                              ? "border-[#E93F3F]  shadow-[0_0_0_1px_#E93F3F,0_8px_20px_rgba(233,63,63,0.15)]"
-                              : "hover:border-[#E93F3F] shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.1)]"
-                          }`}
+                        className={`relative flex cursor-pointer rounded-lg border p-6 transition-all duration-300 hover:scale-[1.02] ${
+                          selectedTemplate === template.id
+                            ? "border-[#E93F3F] shadow-[0_0_0_1px_#E93F3F,0_8px_20px_rgba(233,63,63,0.15)]"
+                            : "shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:border-[#E93F3F] hover:shadow-[0_8px_20px_rgba(0,0,0,0.1)]"
+                        }`}
                         onClick={() => handleSelectTemplate(template.id)}
                       >
                         <div className="absolute top-4 right-4 flex gap-1">
@@ -294,14 +292,14 @@ const TemplateSelectionModal = ({
                         </div>
 
                         {selectedTemplate === template.id && (
-                          <div className="absolute top-2 left-2 bg-[#E93F3F] text-white rounded-full p-1">
+                          <div className="absolute top-2 left-2 rounded-full bg-[#E93F3F] p-1 text-white">
                             <Check size={14} />
                           </div>
                         )}
 
                         <div className="flex gap-4">
                           <div
-                            className="relative w-16 h-16 flex-shrink-0 flex items-center justify-center rounded-full"
+                            className="relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full"
                             style={{ backgroundColor: `${template.color}15` }}
                           >
                             <Image
@@ -314,7 +312,7 @@ const TemplateSelectionModal = ({
                           </div>
 
                           <div className="flex flex-col">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="mb-1 flex items-center gap-2">
                               <h3 className="text-lg font-semibold">
                                 {template.name}
                               </h3>
@@ -337,15 +335,15 @@ const TemplateSelectionModal = ({
                               </div>
                             </div>
 
-                            <p className="text-sm text-muted-foreground mb-3">
+                            <p className="text-muted-foreground mb-3 text-sm">
                               {template.description}
                             </p>
 
-                            <div className="flex flex-wrap gap-2 mt-auto">
+                            <div className="mt-auto flex flex-wrap gap-2">
                               {template.tags.map((tag) => (
                                 <span
                                   key={tag}
-                                  className="text-xs px-2 py-1 border rounded-2xl"
+                                  className="rounded-2xl border px-2 py-1 text-xs"
                                 >
                                   {tag}
                                 </span>
@@ -363,11 +361,11 @@ const TemplateSelectionModal = ({
                     ))
                   ) : (
                     <div className="col-span-2 flex flex-col items-center justify-center p-8 text-center">
-                      <Search size={48} className="text-gray-300 mb-4" />
+                      <Search size={48} className="mb-4 text-gray-300" />
                       <h3 className="text-lg font-medium">
                         No Templates found
                       </h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         Try adjusting your search or filters
                       </p>
                     </div>
@@ -375,8 +373,8 @@ const TemplateSelectionModal = ({
                 </div>
               </RadioGroup>
 
-              <div className="flex justify-between gap-3 mt-4 pt-4 border-t">
-                <div className="flex items-center text-sm text-muted-foreground">
+              <div className="mt-4 flex justify-between gap-3 border-t pt-4">
+                <div className="text-muted-foreground flex items-center text-sm">
                   <Clock size={14} className="mr-1" />
                   <span>
                     Estimated setup time:{" "}
@@ -389,7 +387,7 @@ const TemplateSelectionModal = ({
                     Cancel
                   </Button>
                   <Button
-                    className="bg-[#e93f3f] hover:bg-[#d03636] text-white"
+                    className="bg-[#e93f3f] text-white hover:bg-[#d03636]"
                     onClick={handleContinue}
                   >
                     Continue <ChevronRight size={16} className="ml-1" />
@@ -420,9 +418,9 @@ const TemplateSelectionModal = ({
                   onChange={(e) => setProjectName(e.target.value)}
                 />
               </div>
-              <div className="p-4 shadow-[0_0_0_1px_#E93F3F,0_8px_20px_rgba(233,63,63,0.15)] rounded-lg border">
-                <h3 className="font-medium mb-2">Selected Template Features</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="rounded-lg border p-4 shadow-[0_0_0_1px_#E93F3F,0_8px_20px_rgba(233,63,63,0.15)]">
+                <h3 className="mb-2 font-medium">Selected Template Features</h3>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {templates
                     .find((t) => t.id === selectedTemplate)
                     ?.features.map((feature) => (
@@ -434,7 +432,7 @@ const TemplateSelectionModal = ({
                 </div>
               </div>
 
-              <div className="flex justify-between gap-3 mt-4 pt-4 border-t">
+              <div className="mt-4 flex justify-between gap-3 border-t pt-4">
                 <Button variant="outline" onClick={handleBack}>
                   Back
                 </Button>
