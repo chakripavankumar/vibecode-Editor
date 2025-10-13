@@ -123,7 +123,7 @@ const TemplateNode = ({
         <div className="group flex items-center">
           <SidebarMenuButton
             isActive={isSelected}
-            onClick={() => {}}
+            onClick={() => onFileSelect?.(file)}
             className="flex-1"
           >
             <File className="mr-2 h-4 w-4 shrink-0" />

@@ -27,7 +27,7 @@ import {
 } from "@/features/playground/types/types";
 import { Bot, FileText, Save, Settings, X } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -53,6 +53,15 @@ const Page = () => {
     setPlaygroundId,
     setOpenFiles,
   } = useFileExplorer();
+
+  useEffect(() => {
+    setPlaygroundId(id);
+  }, [id, setPlaygroundId]);
+  useEffect(() => {
+    if (templateData && !openFiles.length) {
+      setTemplateData(templateData);
+    }
+  }, [templateData, setTemplateData, openFiles.length]);
 
   const activeFile = openFiles.find((file) => file.id === activeFileId);
   const hasUnsavedChanges = openFiles.some((file) => file.hasUnsavedChanges);
