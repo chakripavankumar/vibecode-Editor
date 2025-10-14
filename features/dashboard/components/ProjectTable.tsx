@@ -32,7 +32,7 @@ import {
   Download,
   Eye,
 } from "lucide-react";
-import { Project } from "../types";
+import { EditProjectData, Project, ProjectTableProps } from "../types";
 import {
   Dialog,
   DialogContent,
@@ -57,18 +57,6 @@ import {
   AlertDialogDescription,
 } from "@radix-ui/react-alert-dialog";
 
-interface ProjectTableProps {
-  projects: Project[];
-  onUpdateProject?: Function;
-  onDeleteProject?: Function;
-  onDuplicateProject?: Function;
-}
-
-interface EditProjectData {
-  title: string;
-  description: string;
-}
-
 export default function ProjectTable({
   projects,
   onDeleteProject,
@@ -83,7 +71,6 @@ export default function ProjectTable({
     description: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [favoutrie, setFavourite] = useState(false);
 
   const handleDuplicateProject = async (project: Project) => {
     if (!onDuplicateProject) return;

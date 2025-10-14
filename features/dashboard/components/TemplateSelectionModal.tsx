@@ -26,27 +26,16 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { TemplateName, TemplateOption } from "../types";
 type TemplateSelectionModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: {
     title: string;
-    template: "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR";
+    template: TemplateName;
     description?: string;
   }) => void;
 };
-
-interface TemplateOption {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  color: string;
-  popularity: number;
-  tags: string[];
-  features: string[];
-  category: "frontend" | "backend" | "fullstack";
-}
 
 const templates: TemplateOption[] = [
   {
@@ -185,10 +174,7 @@ const TemplateSelectionModal = ({
 
   const handleCreateProject = () => {
     if (selectedTemplate) {
-      const templateMap: Record<
-        string,
-        "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR"
-      > = {
+      const templateMap: Record<string, TemplateName> = {
         react: "REACT",
         nextjs: "NEXTJS",
         express: "EXPRESS",

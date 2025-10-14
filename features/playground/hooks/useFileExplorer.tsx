@@ -1,14 +1,8 @@
 import { create } from "zustand";
 import { toast } from "sonner";
-import { TemplateFile, TemplateFolder } from "../types/types";
+import { OpenFile, TemplateFile, TemplateFolder } from "../types/types";
 import { generateFileId } from "../lib";
 
-interface OpenFile extends TemplateFile {
-  id: string;
-  hasUnsavedChanges: boolean;
-  content: string;
-  originalContent: string;
-}
 interface FileExplorerState {
   playgroundId: string;
   templateData: TemplateFolder | null;

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 "use server";
+
 import { Templates } from "@/app/generated/prisma";
 import { currentUser } from "@/features/auth/actions";
 import { db } from "@/lib/db";

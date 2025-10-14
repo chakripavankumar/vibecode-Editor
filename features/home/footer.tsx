@@ -14,7 +14,6 @@ export function Footer() {
   return (
     <footer className="border-t border-zinc-200 dark:border-zinc-800">
       <div className="mx-auto flex max-w-7xl flex-col items-center space-y-6 px-4 py-8 text-center sm:px-6">
-        {/* Social Links */}
         <div className="flex gap-4">
           {socialLinks.map((link, index) => (
             <Link

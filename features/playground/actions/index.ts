@@ -1,4 +1,5 @@
 "use server";
+
 import { currentUser } from "@/features/auth/actions";
 import { db } from "@/lib/db";
 import { TemplateFolder } from "../types/types";

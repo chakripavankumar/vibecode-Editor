@@ -10,7 +10,7 @@ import {
 
 function validateJsonStructure(data: unknown): boolean {
   try {
-    JSON.parse(JSON.stringify(data)); // Ensures it's serializable
+    JSON.parse(JSON.stringify(data));
     return true;
   } catch (error) {
     console.error("Invalid JSON structure:", error);
@@ -52,7 +52,6 @@ export async function GET(
     await saveTemplateStructureToJson(inputPath, outputFile);
     const result = await readTemplateStructureFromJson(outputFile);
 
-    // Validate the JSON structure before saving
     if (!validateJsonStructure(result.items)) {
       return Response.json(
         { error: "Invalid JSON structure" },
