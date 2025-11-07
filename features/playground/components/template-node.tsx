@@ -36,7 +36,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { TemplateFile, TemplateFolder } from "../types/types";
+import { TemplateFile, TemplateFolder, TemplateNodeProps } from "../types";
 import {
   NewFileDialog,
   NewFolderDialog,
@@ -45,28 +45,6 @@ import {
 } from "./template-file-tree";
 
 type TemplateItem = TemplateFile | TemplateFolder;
-interface TemplateNodeProps {
-  item: TemplateItem;
-  onFileSelect?: (file: TemplateFile) => void;
-  selectedFile?: TemplateFile;
-  level: number;
-  path?: string;
-  onAddFile?: (file: TemplateFile, parentPath: string) => void;
-  onAddFolder?: (folder: TemplateFolder, parentPath: string) => void;
-  onDeleteFile?: (file: TemplateFile, parentPath: string) => void;
-  onDeleteFolder?: (folder: TemplateFolder, parentPath: string) => void;
-  onRenameFile?: (
-    file: TemplateFile,
-    newFilename: string,
-    newExtension: string,
-    parentPath: string,
-  ) => void;
-  onRenameFolder?: (
-    folder: TemplateFolder,
-    newFolderName: string,
-    parentPath: string,
-  ) => void;
-}
 
 const TemplateNode = ({
   item,
@@ -83,11 +61,14 @@ const TemplateNode = ({
 }: TemplateNodeProps) => {
   const isValidItem = item && typeof item === "object";
   const isFolder = isValidItem && "folderName" in item;
-  const [isNewFileDialogOpen, setIsNewFileDialogOpen] = React.useState(false);
-  const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] =
-    React.useState(false);
-  const [isRenameDialogOpen, setIsRenameDialogOpen] = React.useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
+  const [isNewFileDialogOpen, setIsNewFileDialogOpen] = useState(false);
+
+  const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
+
+  const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   const [isOpen, setIsOpen] = useState(level < 2);
 
   if (!isValidItem) return null;
@@ -118,6 +99,7 @@ const TemplateNode = ({
       onRenameFile?.(file, newFilename, newExtension, path);
       setIsRenameDialogOpen(false);
     };
+
     return (
       <SidebarMenuItem>
         <div className="group flex items-center">

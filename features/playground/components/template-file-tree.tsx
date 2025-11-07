@@ -30,31 +30,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import TemplateNode from "./template-node";
-import { TemplateFile, TemplateFolder } from "../types/types";
-
-type TemplateItem = TemplateFile | TemplateFolder;
-
-interface TemplateFileTreeProps {
-  data: TemplateItem;
-  onFileSelect?: (file: TemplateFile) => void;
-  selectedFile?: TemplateFile;
-  title?: string;
-  onAddFile?: (file: TemplateFile, parentPath: string) => void;
-  onAddFolder?: (folder: TemplateFolder, parentPath: string) => void;
-  onDeleteFile?: (file: TemplateFile, parentPath: string) => void;
-  onDeleteFolder?: (folder: TemplateFolder, parentPath: string) => void;
-  onRenameFile?: (
-    file: TemplateFile,
-    newFilename: string,
-    newExtension: string,
-    parentPath: string,
-  ) => void;
-  onRenameFolder?: (
-    folder: TemplateFolder,
-    newFolderName: string,
-    parentPath: string,
-  ) => void;
-}
+import {
+  NewFolderDialogProps,
+  RenameFileDialogProps,
+  RenameFolderDialogProps,
+  TemplateFile,
+  TemplateFileTreeProps,
+  TemplateFolder,
+} from "../types";
 
 const TemplateFileTree = ({
   data,
@@ -234,12 +217,6 @@ export function NewFileDialog({
   );
 }
 
-interface NewFolderDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onCreateFolder: (folderName: string) => void;
-}
-
 export function NewFolderDialog({
   isOpen,
   onClose,
@@ -292,14 +269,6 @@ export function NewFolderDialog({
       </DialogContent>
     </Dialog>
   );
-}
-
-interface RenameFileDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onRename: (filename: string, extension: string) => void;
-  currentFilename: string;
-  currentExtension: string;
 }
 
 export function RenameFileDialog({
@@ -371,13 +340,6 @@ export function RenameFileDialog({
       </DialogContent>
     </Dialog>
   );
-}
-
-interface RenameFolderDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onRename: (folderName: string) => void;
-  currentFolderName: string;
 }
 
 export function RenameFolderDialog({

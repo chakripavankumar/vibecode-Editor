@@ -15,7 +15,7 @@ const Page = async () => {
   const playgrounds = await getAllPlaygroundForUser();
 
   return (
-    <div className="max--w-7xl mx-auto flex min-h-screen flex-col items-center justify-start px-4 py-10">
+    <div className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-start px-4 py-10">
       <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
         <AddNewButton />
         <AddRepoButton />

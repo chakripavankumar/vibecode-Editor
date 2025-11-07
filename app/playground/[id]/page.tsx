@@ -24,7 +24,7 @@ import { usePlayground } from "@/features/playground/hooks/usePlayground";
 import {
   TemplateFile,
   TemplateFolder,
-} from "@/features/playground/types/types";
+} from "@/features/playground/types";
 import { Bot, FileText, Save, Settings, X } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";

@@ -33,13 +33,15 @@ import {
   Eye,
 } from "lucide-react";
 import { EditProjectData, Project, ProjectTableProps } from "../types";
+
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
-} from "@radix-ui/react-dialog";
-import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -50,12 +52,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogDescription,
-} from "@radix-ui/react-alert-dialog";
+} from "@/components/ui/alert-dialog";
 
 export default function ProjectTable({
   projects,
@@ -64,17 +64,21 @@ export default function ProjectTable({
   onUpdateProject,
 }: ProjectTableProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [editData, setEditData] = useState<EditProjectData>({
-    title: "",
-    description: "",
-  });
+
+  const [editData, setEditData] = useState<EditProjectData>({title: "",description: "",});
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDuplicateProject = async (project: Project) => {
+
     if (!onDuplicateProject) return;
+
     setIsLoading(true);
+
     try {
       await onDuplicateProject(project.id);
       toast.success("project duplicated sucessfully");
@@ -87,18 +91,18 @@ export default function ProjectTable({
   };
 
   const handleEditClick = async (project: Project) => {
+
     setSelectedProject(project);
-    setEditData({
-      title: project.title,
-      description: project.description || " ",
-    });
+    setEditData({title: project.title,description: project.description || " ",});
     setEditDialogOpen(true);
   };
 
   const handleUpdateProject = async () => {
+
     if (!selectedProject || !onUpdateProject) return;
 
     setIsLoading(true);
+
     try {
       await onUpdateProject(selectedProject.id, editData);
       setEditDialogOpen(false);
@@ -124,6 +128,7 @@ export default function ProjectTable({
   };
 
   const handleDeleteProject = async () => {
+
     if (!selectedProject || !onDeleteProject) return;
 
     setIsLoading(true);

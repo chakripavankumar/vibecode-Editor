@@ -14,9 +14,7 @@ export default async function DashboardLayout({
     REACT: "Zap",
     NEXTJS: "Lightbulb",
     EXPRESS: "Database",
-    VUE: "Compass",
     HONO: "FlameIcon",
-    ANGULAR: "Terminal",
   };
   const formattedPlaygroundData =
     playgroundData?.map((playground) => ({

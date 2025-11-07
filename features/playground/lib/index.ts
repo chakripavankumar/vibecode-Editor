@@ -1,4 +1,4 @@
-import { TemplateFile, TemplateFolder } from "../types/types";
+import { TemplateFile, TemplateFolder } from "../types";
 
 export function findFilePath(
   file: TemplateFile,

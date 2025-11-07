@@ -2,7 +2,7 @@
 
 import { currentUser } from "@/features/auth/actions";
 import { db } from "@/lib/db";
-import { TemplateFolder } from "../types/types";
+import { TemplateFolder } from "../types";
 
 export const getPlaygroundById = async (id: string) => {
   try {
@@ -20,7 +20,7 @@ export const getPlaygroundById = async (id: string) => {
     });
     return playground;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -46,7 +46,7 @@ export const SaveUpdatedCode = async (
     });
     return updatedPlayground;
   } catch (error) {
-    console.log("SaveUpdatedCode error:", error);
+    console.error("SaveUpdatedCode error:", error);
     return null;
   }
 };

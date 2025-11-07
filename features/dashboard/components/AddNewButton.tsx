@@ -1,23 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import * as React from 'react';
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
 import TemplateSelectionModal from "./TemplateSelectionModal";
 import { createPlayground } from "../actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { TemplateName } from "../types";
+import { useState } from 'react';
 
 const AddNewButton = () => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [selectedTemplate, setSelectedTemplate] = useState<{
     title: string;
     template: TemplateName;
     description?: string;
   } | null>(null);
+
   const router = useRouter();
 
   const handleSubmit = async (data: {
@@ -32,6 +36,7 @@ const AddNewButton = () => {
     setIsModalOpen(false);
     router.push(`/playground/${res?.id}`);
   };
+
   return (
     <>
       <div

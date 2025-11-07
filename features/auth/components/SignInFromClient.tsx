@@ -31,7 +31,6 @@ const SignInFormClient = () => {
           Choose your preferred sign-in method
         </CardDescription>
       </CardHeader>
-
       <CardContent className="grid gap-4">
         <form action={handleGoogleSignIn}>
           <Button type="submit" variant={"outline"} className="w-full">
@@ -46,7 +45,6 @@ const SignInFormClient = () => {
           </Button>
         </form>
       </CardContent>
-
       <CardFooter>
         <p className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
           By signing in, you agree to our{" "}

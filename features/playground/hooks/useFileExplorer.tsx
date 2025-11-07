@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { toast } from "sonner";
-import { OpenFile, TemplateFile, TemplateFolder } from "../types/types";
+import { OpenFile, TemplateFile, TemplateFolder } from "../types";
 import { generateFileId } from "../lib";
 
 interface FileExplorerState {

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { TemplateFile, TemplateFolder } from "../types/types";
+import { TemplateFile, TemplateFolder } from "../types";
 
 // Type representing either a file or folder in the template structure
 export type TemplateItem = TemplateFile | TemplateFolder;

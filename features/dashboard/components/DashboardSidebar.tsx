@@ -15,6 +15,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+
 import {
   Code2,
   Compass,
@@ -32,17 +33,13 @@ import {
   Terminal,
   Zap,
 } from "lucide-react";
+
 import Image from "next/image";
+import * as React from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
-
-interface PlaygrounDataProps {
-  id: string;
-  name: string;
-  icon: string;
-  starred: boolean;
-}
+import { useState } from "react";
+import { PlaygrounDataProps } from "../types";
 
 const LucideIconMap: Record<string, LucideIcon> = {
   Zap: Zap,
@@ -53,18 +50,19 @@ const LucideIconMap: Record<string, LucideIcon> = {
   Terminal: Terminal,
   Code2: Code2,
 };
+
 const DashboardSidebar = ({
   initialPlaygroundData,
 }: {
   initialPlaygroundData: PlaygrounDataProps[];
 }) => {
+
   const pathname = usePathname();
-  const [starredPlaygrounds, setStarredPlaygrounds] = useState(
-    initialPlaygroundData.filter((p) => p.starred),
-  );
-  const [recentPlaygrounds, setRecentPlaygrounds] = useState(
-    initialPlaygroundData,
-  );
+  
+  const [starredPlaygrounds, setStarredPlaygrounds] = useState(initialPlaygroundData.filter((p) => p.starred));
+
+  const [recentPlaygrounds, setRecentPlaygrounds] = useState(initialPlaygroundData);
+  
   return (
     <div>
       <Sidebar variant="inset" collapsible="icon" className="border border-r">
@@ -74,6 +72,7 @@ const DashboardSidebar = ({
           </div>
         </SidebarHeader>
         <SidebarContent>
+          {/* GROUP-1 Home and Dashboard */}
           <SidebarGroup>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -102,6 +101,7 @@ const DashboardSidebar = ({
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>
+          {/* GROUP-2 Started Playgrounds */}
           <SidebarGroup>
             <SidebarGroupLabel>
               <Star className="mr-2 size-4" />
@@ -143,6 +143,7 @@ const DashboardSidebar = ({
               </SidebarMenu>
             </SidebarGroupContent>{" "}
           </SidebarGroup>
+          {/* GROUP-3 Recents */}
           <SidebarGroup>
             <SidebarGroupLabel>
               <History className="mr-2 h-4 w-4" />
@@ -191,6 +192,7 @@ const DashboardSidebar = ({
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>

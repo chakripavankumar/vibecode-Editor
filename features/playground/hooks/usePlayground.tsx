@@ -4,22 +4,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { getPlaygroundById, SaveUpdatedCode } from "../actions/index";
-import { TemplateFolder } from "../types/types";
-
-interface PlaygroundData {
-  id: string;
-  title?: string;
-  [key: string]: unknown;
-}
-
-interface UsePlaygroundReturn {
-  playgroundData: PlaygroundData | null;
-  templateData: TemplateFolder | null;
-  isLoading: boolean;
-  error: string | null;
-  loadPlayground: () => Promise<void>;
-  saveTemplateData: (data: TemplateFolder) => Promise<void>;
-}
+import { PlaygroundData, TemplateFolder, UsePlaygroundReturn } from "../types";
 
 export const usePlayground = (id: string): UsePlaygroundReturn => {
   const [playgroundData, setPlaygroundData] = useState<PlaygroundData | null>(

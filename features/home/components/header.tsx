@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import UserButton from "../auth/components/UserButton";
+import UserButton from "@/features/auth/components/UserButton";
 
 export function Header() {
   return (
@@ -9,7 +9,7 @@ export function Header() {
       <div className="sticky top-0 right-0 left-0 z-50">
         <div className="w-full bg-white dark:bg-black/5">
           {/* Rest of the header content */}
-          <div className="flex w-full flex-col items-center justify-center">
+          <div className="flex w-full items-center justify-center">
             <div
               className={`relative flex w-full items-center justify-between rounded-b-[28px] border-x border-b border-[rgba(230,230,230,0.7)] bg-linear-to-b from-white/90 via-gray-50/90 to-white/90 px-4 py-2.5 shadow-[0_2px_20px_-2px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 ease-in-out sm:max-w-[1200px] sm:min-w-[800px] dark:border-[rgba(70,70,70,0.7)] dark:from-zinc-900/90 dark:via-zinc-800/90 dark:to-zinc-900/90`}
             >
