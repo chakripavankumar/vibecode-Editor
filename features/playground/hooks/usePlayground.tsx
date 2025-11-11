@@ -7,11 +7,12 @@ import { getPlaygroundById, SaveUpdatedCode } from "../actions/index";
 import { PlaygroundData, TemplateFolder, UsePlaygroundReturn } from "../types";
 
 export const usePlayground = (id: string): UsePlaygroundReturn => {
-  const [playgroundData, setPlaygroundData] = useState<PlaygroundData | null>(
-    null,
-  );
+  const [playgroundData, setPlaygroundData] = useState<PlaygroundData | null>(null);
+
   const [templateData, setTemplateData] = useState<TemplateFolder | null>(null);
+
   const [isLoading, setIsLoading] = useState(true);
+  
   const [error, setError] = useState<string | null>(null);
 
   const loadPlayground = useCallback(async () => {

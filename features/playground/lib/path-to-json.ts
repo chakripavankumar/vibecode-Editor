@@ -2,24 +2,17 @@ import * as fs from "fs";
 import * as path from "path";
 import { TemplateFile, TemplateFolder } from "../types";
 
-// Type representing either a file or folder in the template structure
 export type TemplateItem = TemplateFile | TemplateFolder;
 
 //  Options for scanning template directories
 interface ScanOptions {
-  // Files to ignore (exact filenames with extensions)
-
   ignoreFiles?: string[];
-  // Folders to ignore (exact folder names)
 
   ignoreFolders?: string[];
-
-  // File patterns to ignore (regex patterns)
 
   ignorePatterns?: RegExp[];
 
   //  * Maximum size of file to include content (in bytes)
-  //  * Files larger than this will have a placeholder message instead of content
 
   maxFileSize?: number;
 }
@@ -30,6 +23,7 @@ interface ScanOptions {
  * @param options - Scanning options to customize behavior
  * @returns Promise resolving to the template structure as JSON
  */
+
 export async function scanTemplateDirectory(
   templatePath: string,
   options: ScanOptions = {},
@@ -118,6 +112,7 @@ export async function scanTemplateDirectory(
  * @param options - Scanning options
  * @returns Promise resolving to a TemplateFolder object
  */
+
 async function processDirectory(
   folderName: string,
   folderPath: string,
@@ -205,12 +200,12 @@ async function processDirectory(
 
 /**
  * Saves the template structure to a JSON file
- *
  * @param templatePath - Path to the template directory
  * @param outputPath - Path where the JSON file should be saved
  * @param options - Scanning options
  * @returns Promise resolving when the file has been written
  */
+
 export async function saveTemplateStructureToJson(
   templatePath: string,
   outputPath: string,

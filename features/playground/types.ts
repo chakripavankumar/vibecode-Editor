@@ -5,15 +5,25 @@ export interface TemplateFile {
   fileExtension: string;
   content: string;
 }
+
+export interface TemplateFolder {
+  folderName: string;
+  items: (TemplateFile | TemplateFolder)[];
+}
+
 export interface PlaygroundData {
   id: string;
   name?: string;
   [key: string]: unknown;
 }
 
-export interface TemplateFolder {
-  folderName: string;
-  items: (TemplateFile | TemplateFolder)[];
+export interface UsePlaygroundReturn {
+  playgroundData: PlaygroundData | null;
+  templateData: TemplateFolder | null;
+  isLoading: boolean;
+  error: string | null;
+  loadPlayground: () => Promise<void>;
+  saveTemplateData: (data: TemplateFolder) => Promise<void>;
 }
 
 export interface LoadingStepProps {
@@ -93,13 +103,4 @@ export interface RenameFolderDialogProps {
   onClose: () => void;
   onRename: (folderName: string) => void;
   currentFolderName: string;
-}
-
-export interface UsePlaygroundReturn {
-  playgroundData: PlaygroundData | null;
-  templateData: TemplateFolder | null;
-  isLoading: boolean;
-  error: string | null;
-  loadPlayground: () => Promise<void>;
-  saveTemplateData: (data: TemplateFolder) => Promise<void>;
 }
