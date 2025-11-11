@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { Plus, FilePlus, FolderPlus } from "lucide-react";
 import {
   Sidebar,
@@ -31,10 +32,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import TemplateNode from "./template-node";
 import {
+  NewFileDialogProps,
   NewFolderDialogProps,
   RenameFileDialogProps,
   RenameFolderDialogProps,
-  TemplateFile,
   TemplateFileTreeProps,
   TemplateFolder,
 } from "../types";
@@ -52,12 +53,15 @@ const TemplateFileTree = ({
   onRenameFolder,
 }: TemplateFileTreeProps) => {
   const isRootFolder = data && typeof data === "object" && "folderName" in data;
-  const [isNewFileDialogOpen, setIsNewFileDialogOpen] = React.useState(false);
-  const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] =
-    React.useState(false);
+
+  const [isNewFileDialogOpen, setIsNewFileDialogOpen] = useState(false);
+
+  const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false);
+
   const handleAddRootFile = () => {
     setIsNewFileDialogOpen(true);
   };
+
   const handleAddRootFolder = () => {
     setIsNewFolderDialogOpen(true);
   };
@@ -142,19 +146,14 @@ const TemplateFileTree = ({
 
 export default TemplateFileTree;
 
-interface NewFileDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onCreateFile: (filename: string, extension: string) => void;
-}
-
 export function NewFileDialog({
   isOpen,
   onClose,
   onCreateFile,
 }: NewFileDialogProps) {
-  const [filename, setFilename] = React.useState("");
-  const [extension, setExtension] = React.useState("js");
+  const [filename, setFilename] = useState("");
+
+  const [extension, setExtension] = useState("js");
 
   const handleSubmit = (e: React.FormEvent) => {
     console.log("function is called");
@@ -222,7 +221,7 @@ export function NewFolderDialog({
   onClose,
   onCreateFolder,
 }: NewFolderDialogProps) {
-  const [folderName, setFolderName] = React.useState("");
+  const [folderName, setFolderName] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -278,8 +277,9 @@ export function RenameFileDialog({
   currentFilename,
   currentExtension,
 }: RenameFileDialogProps) {
-  const [filename, setFilename] = React.useState(currentFilename);
-  const [extension, setExtension] = React.useState(currentExtension);
+  const [filename, setFilename] = useState(currentFilename);
+
+  const [extension, setExtension] = useState(currentExtension);
 
   React.useEffect(() => {
     if (isOpen) {
@@ -348,9 +348,9 @@ export function RenameFolderDialog({
   onRename,
   currentFolderName,
 }: RenameFolderDialogProps) {
-  const [folderName, setFolderName] = React.useState(currentFolderName);
+  const [folderName, setFolderName] = useState(currentFolderName);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       setFolderName(currentFolderName);
     }

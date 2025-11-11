@@ -3,10 +3,7 @@ import { templatePaths } from "@/lib/template";
 import path from "path";
 import fs from "fs/promises";
 import { NextRequest } from "next/server";
-import {
-  readTemplateStructureFromJson,
-  saveTemplateStructureToJson,
-} from "@/features/playground/lib/path-to-json";
+import {readTemplateStructureFromJson,saveTemplateStructureToJson} from "@/features/playground/lib/path-to-json";
 
 function validateJsonStructure(data: unknown): boolean {
   try {

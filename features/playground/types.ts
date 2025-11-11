@@ -1,4 +1,4 @@
-import { TemplateItem } from "./lib/path-to-json";
+export type TemplateItem = TemplateFile | TemplateFolder;
 
 export interface TemplateFile {
   filename: string;
@@ -103,4 +103,10 @@ export interface RenameFolderDialogProps {
   onClose: () => void;
   onRename: (folderName: string) => void;
   currentFolderName: string;
+}
+
+export interface NewFileDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onCreateFile: (filename: string, extension: string) => void;
 }

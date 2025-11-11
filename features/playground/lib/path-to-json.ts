@@ -1,8 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { TemplateFile, TemplateFolder } from "../types";
-
-export type TemplateItem = TemplateFile | TemplateFolder;
+import { TemplateFolder, TemplateItem } from "../types";
 
 //  Options for scanning template directories
 interface ScanOptions {
