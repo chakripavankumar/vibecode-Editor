@@ -35,10 +35,9 @@ import {
 } from "lucide-react";
 
 import Image from "next/image";
-import * as React from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import  React ,{ useState } from "react";
 import { PlaygrounDataProps } from "../types";
 
 const LucideIconMap: Record<string, LucideIcon> = {

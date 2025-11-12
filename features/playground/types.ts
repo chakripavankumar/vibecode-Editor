@@ -110,3 +110,9 @@ export interface NewFileDialogProps {
   onClose: () => void;
   onCreateFile: (filename: string, extension: string) => void;
 }
+
+export interface PlaygroundEditorProps {
+  activeFile: TemplateFile | undefined;
+  content: string;
+  onContentChange: (value: string) => void;
+}

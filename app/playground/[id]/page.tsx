@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,22 +19,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import PlaygroundEditor from "@/features/playground/components/playground-editor";
 import TemplateFileTree from "@/features/playground/components/template-file-tree";
 import { useFileExplorer } from "@/features/playground/hooks/useFileExplorer";
 import { usePlayground } from "@/features/playground/hooks/usePlayground";
-import {
-  TemplateFile,
-  TemplateFolder,
-} from "@/features/playground/types";
+import { TemplateFile, TemplateFolder } from "@/features/playground/types";
+import { Value } from "@radix-ui/react-select";
 import { Bot, FileText, Save, Settings, X } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
+
   const [isPreviewVisible, setIsPreviewVisible] = useState(true);
+
   const { playgroundData, templateData, isLoading, error, saveTemplateData } =
     usePlayground(id);
+
   const {
     activeFileId,
     closeAllFiles,
@@ -57,18 +60,12 @@ const Page = () => {
   useEffect(() => {
     setPlaygroundId(id);
   }, [id, setPlaygroundId]);
+
   useEffect(() => {
     if (templateData && !openFiles.length) {
       setTemplateData(templateData);
     }
   }, [templateData, setTemplateData, openFiles.length]);
-
-  const activeFile = openFiles.find((file) => file.id === activeFileId);
-  const hasUnsavedChanges = openFiles.some((file) => file.hasUnsavedChanges);
-  const handleFileSelect = (file: TemplateFile) => {
-    console.log("HandlePath", file);
-    openFile(file);
-  };
 
   const wrappedHandleRenameFile = useCallback(
     (
@@ -98,7 +95,14 @@ const Page = () => {
     },
     [handleRenameFolder, saveTemplateData],
   );
+  const activeFile = openFiles.find((file) => file.id === activeFileId);
 
+  const hasUnsavedChanges = openFiles.some((file) => file.hasUnsavedChanges);
+
+  const handleFileSelect = (file: TemplateFile) => {
+    console.log("HandlePath", file);
+    openFile(file);
+  };
   return (
     <TooltipProvider>
       <>
@@ -106,6 +110,7 @@ const Page = () => {
           data={templateData!}
           onFileSelect={handleFileSelect}
           selectedFile={activeFile}
+          title="File Explorer"
           onRenameFile={wrappedHandleRenameFile}
           onRenameFolder={wrappedHandleRenameFolder}
         />
@@ -116,7 +121,7 @@ const Page = () => {
             <div className="flex flex-1 items-center gap-2">
               <div className="flex flex-1 flex-col">
                 <h1 className="text-sm font-medium">
-                  {playgroundData?.title || "Code Playground"}
+                  {playgroundData?.name || "Code Playground"}
                 </h1>
                 <p className="text-muted-foreground text-xs">
                   {openFiles.length} File(s) open
@@ -168,7 +173,7 @@ const Page = () => {
                     <DropdownMenuItem
                       onClick={() => setIsPreviewVisible(!isPreviewVisible)}
                     >
-                      {isPreviewVisible ? " Hide" : "Show"} Preview
+                      {isPreviewVisible ? "Hide" : "Show"} Preview
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={closeAllFiles}>
@@ -179,6 +184,7 @@ const Page = () => {
               </div>
             </div>
           </header>
+
           <div className="h-[calc(100vh-4rem)]">
             {openFiles.length > 0 ? (
               <div className="flex h-full flex-col">
@@ -187,7 +193,7 @@ const Page = () => {
                     value={activeFileId || ""}
                     onValueChange={setActiveFileId}
                   >
-                    <div className="py-f2 flex items-center justify-between px-4">
+                    <div className="flex items-center justify-between px-4 py-2">
                       <TabsList className="h-8 bg-transparent p-0">
                         {openFiles.map((file) => (
                           <TabsTrigger
@@ -215,9 +221,35 @@ const Page = () => {
                             </div>
                           </TabsTrigger>
                         ))}
-                      </TabsList>{" "}
+                      </TabsList>
+                      {openFiles.length > 1 && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={closeAllFiles}
+                          className="h-6 px-2 text-xs"
+                        >
+                          Close All
+                        </Button>
+                      )}
                     </div>
                   </Tabs>
+                </div>
+                <div className="flex-1">
+                  <ResizablePanelGroup
+                    direction="horizontal"
+                    className="h-full"
+                  >
+                    <ResizablePanel defaultSize={isPreviewVisible ? 50 : 100}>
+                      <PlaygroundEditor
+                        activeFile={activeFile}
+                        content={activeFile?.content || ""}
+                        onContentChange={(value) =>
+                          activeFileId && updateFileContent(activeFileId, value)
+                        }
+                      />
+                    </ResizablePanel>
+                  </ResizablePanelGroup>
                 </div>
               </div>
             ) : (
@@ -240,3 +272,6 @@ const Page = () => {
 };
 
 export default Page;
+function writeFileSync(filePath: string, content: string): Promise<void> {
+  throw new Error("Function not implemented.");
+}

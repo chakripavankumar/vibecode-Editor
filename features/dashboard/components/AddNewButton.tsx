@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import * as React from 'react';
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Image from "next/image";
@@ -10,10 +9,9 @@ import { createPlayground } from "../actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { TemplateName } from "../types";
-import { useState } from 'react';
+import React, { useState } from "react";
 
 const AddNewButton = () => {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [selectedTemplate, setSelectedTemplate] = useState<{
