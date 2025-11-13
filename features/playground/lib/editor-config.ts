@@ -269,11 +269,6 @@ export const defaultEditorOptions = {
   fontWeight: "400",
 
   // Layout
-  minimap: {
-    enabled: true,
-    size: "proportional",
-    showSlider: "mouseover",
-  },
   scrollBeyondLastLine: false,
   automaticLayout: true,
   padding: { top: 16, bottom: 16 },

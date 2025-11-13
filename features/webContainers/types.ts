@@ -32,9 +32,17 @@ export interface WebContainerFile {
     contents: string;
   };
 }
-
 export interface WebContainerDirectory {
   directory: {
     [key: string]: WebContainerFile | WebContainerDirectory;
   };
+}
+export interface WebContainerPreviewProps {
+  templateDate: TemplateFolder;
+  serverUrl: string;
+  isLoading: boolean;
+  error: string | null;
+  instance: WebContainer | null;
+  writeFileSync: (path: string, content: string) => Promise<void>;
+  forceResetup?: boolean;
 }
