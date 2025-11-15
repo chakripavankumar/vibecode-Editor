@@ -46,3 +46,14 @@ export interface WebContainerPreviewProps {
   writeFileSync: (path: string, content: string) => Promise<void>;
   forceResetup?: boolean;
 }
+export interface TerminalProps {
+  webcontainerUrl?: string;
+  className?: string;
+  theme?: "dark" | "light";
+  webContainerInstance?: any;
+}
+export interface TerminalRef {
+  writeToTerminal: (data: string) => void;
+  clearTerminal: () => void;
+  focusTerminal: () => void;
+}

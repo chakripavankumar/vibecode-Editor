@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LoadingStep from "@/components/ui/loader";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -30,7 +31,7 @@ import { usePlayground } from "@/features/playground/hooks/usePlayground";
 import { TemplateFile, TemplateFolder } from "@/features/playground/types";
 import WebContainerPreview from "@/features/webContainers/components/WebContainerPreview";
 import { useWebContainer } from "@/features/webContainers/hooks/useWebContainer";
-import { Bot, FileText, Save, Settings, X } from "lucide-react";
+import { AlertCircle, Bot, FileText, Save, Settings, X } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -117,6 +118,47 @@ const Page = () => {
     console.log("HandlePath", file);
     openFile(file);
   };
+
+  if (error) {
+    return (
+      <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center p-4">
+        <AlertCircle className="mb-4 h-12 w-12 text-red-500" />
+        <h2 className="mb-2 text-xl font-semibold text-red-600">
+          Something Went Wrong
+        </h2>
+        <p className="mb-4 text-gray-600"> {error}</p>
+        <Button onClick={() => window.location.reload()} variant="destructive">
+          Try Again
+        </Button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center p-4">
+        <div className="w-full max-w-md rounded-lg border p-6 shadow-sm">
+          <h2 className="mb-6 text-center text-xl font-semibold">
+            Loading Playground
+          </h2>
+          <div className="mb-8">
+            <LoadingStep
+              currentStep={1}
+              step={1}
+              label="Loading playground data"
+            />
+            <LoadingStep
+              currentStep={2}
+              step={2}
+              label="Setting up Environment"
+            />
+            <LoadingStep currentStep={3} step={3} label="Ready to code" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <TooltipProvider>
       <>
@@ -263,6 +305,7 @@ const Page = () => {
                         }
                       />
                     </ResizablePanel>
+
                     {isPreviewVisible && (
                       <>
                         <ResizableHandle />
