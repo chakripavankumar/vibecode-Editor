@@ -28,12 +28,14 @@ import PlaygroundEditor from "@/features/playground/components/playground-editor
 import TemplateFileTree from "@/features/playground/components/template-file-tree";
 import { useFileExplorer } from "@/features/playground/hooks/useFileExplorer";
 import { usePlayground } from "@/features/playground/hooks/usePlayground";
+import { findFilePath } from "@/features/playground/lib";
 import { TemplateFile, TemplateFolder } from "@/features/playground/types";
 import WebContainerPreview from "@/features/webContainers/components/WebContainerPreview";
 import { useWebContainer } from "@/features/webContainers/hooks/useWebContainer";
 import { AlertCircle, Bot, FileText, Save, Settings, X } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,6 +74,7 @@ const Page = () => {
     //@ts-ignore
   } = useWebContainer({ templateData });
 
+  const lastSyncedContent = useRef<Map<string, string>>(new Map());
   useEffect(() => {
     setPlaygroundId(id);
   }, [id, setPlaygroundId]);
@@ -118,6 +121,82 @@ const Page = () => {
     console.log("HandlePath", file);
     openFile(file);
   };
+
+  const handleSave = useCallback(() => {
+    async (fileId: string) => {
+      const targetFileId = fileId || activeFileId;
+
+      if (!targetFileId) return;
+
+      const fileToSave = openFiles.find((f) => f.id === targetFileId);
+      if (!fileToSave) return;
+      const latestTemplateData = useFileExplorer.getState().templateData;
+      if (!latestTemplateData) return;
+
+      try {
+        const filePath = findFilePath(fileToSave, latestTemplateData);
+        if (!filePath) {
+          toast.error(
+            `could not find path for file ${fileToSave.filename}.${fileToSave.fileExtension}`,
+          );
+          return;
+        }
+        const updatedTemplateData = JSON.parse(
+          JSON.stringify(latestTemplateData),
+        );
+        const updatedFileContent = (items: any[]) =>
+          items.map((item) => {
+            if ("folderName" in item) {
+              return { ...item, items: updateFileContent(item.items) };
+            } else if (
+              item.filename === fileToSave.filename &&
+              item.fileExtension === fileToSave.fileExtension
+            ) {
+              return { ...item, content: fileToSave.content };
+            }
+            return item;
+          });
+        if (writeFileSync) {
+          await writeFileSync(filePath, fileToSave.content);
+          lastSyncedContent.current.set(fileToSave.id, fileToSave.content);
+          if (instance && instance.fs) {
+            await instance.fs.writeFile(filePath, fileToSave.content);
+          }
+        }
+        const newTemplateData = await saveTemplateData(updatedTemplateData);
+        setTemplateData(newTemplateData || updatedTemplateData);
+        const updatedOpenFiles = openFiles.map((f) =>
+          f.id === targetFileId
+            ? {
+                ...f,
+                content: fileToSave.content,
+                orginalContent: fileToSave.content,
+                hasUnsavedChanges: false,
+              }
+            : f,
+        );
+        setOpenFiles(updatedOpenFiles);
+
+        toast.success(
+          `Saved ${fileToSave.filename}.${fileToSave.fileExtension}`,
+        );
+      } catch (error) {
+        console.error("Error saving file:", error);
+        toast.error(
+          `Failed to save ${fileToSave.filename}.${fileToSave.fileExtension}`,
+        );
+        throw error;
+      }
+    };
+  }, [
+    activeFileId,
+    openFiles,
+    writeFileSync,
+    instance,
+    saveTemplateData,
+    setTemplateData,
+    setOpenFiles,
+  ]);
 
   if (error) {
     return (
