@@ -75,6 +75,7 @@ const Page = () => {
   } = useWebContainer({ templateData });
 
   const lastSyncedContent = useRef<Map<string, string>>(new Map());
+
   useEffect(() => {
     setPlaygroundId(id);
   }, [id, setPlaygroundId]);
@@ -84,6 +85,33 @@ const Page = () => {
       setTemplateData(templateData);
     }
   }, [templateData, setTemplateData, openFiles.length]);
+
+  const wrappedHandleAddFile = useCallback(
+    (newFile: TemplateFile, parentPath: string) => {
+      return handleAddFile(
+        newFile,
+        parentPath,
+        writeFileSync!,
+        instance,
+        saveTemplateData,
+      );
+    },
+    [handleAddFile, writeFileSync, instance, saveTemplateData],
+  );
+
+  const wrappedHandleAddFolder = useCallback(
+    (newFolder: TemplateFolder, parentPath: string) => {
+      return handleAddFolder(newFolder, parentPath, instance, saveTemplateData);
+    },
+    [handleAddFolder, instance, saveTemplateData],
+  );
+
+  const wrappedHandleDeleteFile = useCallback(
+    (file: TemplateFile, parentPath: string) => {
+      return handleDeleteFile(file, parentPath, saveTemplateData);
+    },
+    [handleDeleteFile, saveTemplateData],
+  );
 
   const wrappedHandleRenameFile = useCallback(
     (
@@ -102,6 +130,14 @@ const Page = () => {
     },
     [handleRenameFile, saveTemplateData],
   );
+
+  const wrappedHandleDeleteFolder = useCallback(
+    (folder: TemplateFolder, parentPath: string) => {
+      return handleDeleteFolder(folder, parentPath, saveTemplateData);
+    },
+    [handleDeleteFolder, saveTemplateData],
+  );
+
   const wrappedHandleRenameFolder = useCallback(
     (folder: TemplateFolder, newFolderName: string, parentPath: string) => {
       return handleRenameFolder(
@@ -113,6 +149,7 @@ const Page = () => {
     },
     [handleRenameFolder, saveTemplateData],
   );
+
   const activeFile = openFiles.find((file) => file.id === activeFileId);
 
   const hasUnsavedChanges = openFiles.some((file) => file.hasUnsavedChanges);
@@ -122,14 +159,14 @@ const Page = () => {
     openFile(file);
   };
 
-  const handleSave = useCallback(() => {
-    async (fileId: string) => {
+  const handleSave = useCallback(
+    async (fileId?: string) => {
       const targetFileId = fileId || activeFileId;
-
       if (!targetFileId) return;
 
       const fileToSave = openFiles.find((f) => f.id === targetFileId);
       if (!fileToSave) return;
+
       const latestTemplateData = useFileExplorer.getState().templateData;
       if (!latestTemplateData) return;
 
@@ -137,14 +174,14 @@ const Page = () => {
         const filePath = findFilePath(fileToSave, latestTemplateData);
         if (!filePath) {
           toast.error(
-            `could not find path for file ${fileToSave.filename}.${fileToSave.fileExtension}`,
+            `Could not find path for file: ${fileToSave.filename}.${fileToSave.fileExtension}`,
           );
           return;
         }
         const updatedTemplateData = JSON.parse(
           JSON.stringify(latestTemplateData),
         );
-        const updatedFileContent = (items: any[]) =>
+        const updateFileContent = (items: any[]) =>
           items.map((item) => {
             if ("folderName" in item) {
               return { ...item, items: updateFileContent(item.items) };
@@ -156,6 +193,9 @@ const Page = () => {
             }
             return item;
           });
+        updatedTemplateData.items = updateFileContent(
+          updatedTemplateData.items,
+        );
         if (writeFileSync) {
           await writeFileSync(filePath, fileToSave.content);
           lastSyncedContent.current.set(fileToSave.id, fileToSave.content);
@@ -165,12 +205,13 @@ const Page = () => {
         }
         const newTemplateData = await saveTemplateData(updatedTemplateData);
         setTemplateData(newTemplateData || updatedTemplateData);
+
         const updatedOpenFiles = openFiles.map((f) =>
           f.id === targetFileId
             ? {
                 ...f,
                 content: fileToSave.content,
-                orginalContent: fileToSave.content,
+                originalContent: fileToSave.content,
                 hasUnsavedChanges: false,
               }
             : f,
@@ -187,16 +228,43 @@ const Page = () => {
         );
         throw error;
       }
+    },
+    [
+      activeFileId,
+      openFiles,
+      writeFileSync,
+      instance,
+      saveTemplateData,
+      setTemplateData,
+      setOpenFiles,
+    ],
+  );
+
+  const handleSaveAll = async () => {
+    const unsavedFiles = openFiles.filter((f) => f.hasUnsavedChanges);
+    if (unsavedFiles.length === 0) {
+      toast.info("No unsaved Changes");
+      return;
+    }
+    try {
+      await Promise.all(unsavedFiles.map((f) => handleSave(f.id)));
+      toast.success(`saved ${unsavedFiles.length} file(s)`);
+      toast.success;
+    } catch (error) {
+      toast.error("Fialed to save some Files");
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+        handleSave();
+      }
     };
-  }, [
-    activeFileId,
-    openFiles,
-    writeFileSync,
-    instance,
-    saveTemplateData,
-    setTemplateData,
-    setOpenFiles,
-  ]);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleSave]);
 
   if (error) {
     return (
@@ -248,6 +316,10 @@ const Page = () => {
           title="File Explorer"
           onRenameFile={wrappedHandleRenameFile}
           onRenameFolder={wrappedHandleRenameFolder}
+          onAddFile={wrappedHandleAddFile}
+          onAddFolder={wrappedHandleAddFolder}
+          onDeleteFile={wrappedHandleDeleteFile}
+          onDeleteFolder={wrappedHandleDeleteFolder}
         />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -269,7 +341,7 @@ const Page = () => {
                     <Button
                       size={"sm"}
                       variant={"outline"}
-                      onClick={() => {}}
+                      onClick={() => handleSave()}
                       disabled={!activeFile || !activeFile.hasUnsavedChanges}
                     >
                       <Save className="size-4" />
@@ -282,7 +354,7 @@ const Page = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => {}}
+                      onClick={handleSaveAll}
                       disabled={!hasUnsavedChanges}
                     >
                       <Save className="h-4 w-4" /> All

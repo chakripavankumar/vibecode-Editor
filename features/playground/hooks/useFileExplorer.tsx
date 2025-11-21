@@ -18,12 +18,12 @@ interface FileExplorerState {
   openFile: (file: TemplateFile) => void;
   closeFile: (fileId: string) => void;
   closeAllFiles: () => void;
- handleAddFile: (
+  handleAddFile: (
     newFile: TemplateFile,
     parentPath: string,
     writeFileSync: (filePath: string, content: string) => Promise<void>,
     instance: any,
-    saveTemplateData: (data: TemplateFolder) => Promise<void>
+    saveTemplateData: (data: TemplateFolder) => Promise<void>,
   ) => Promise<void>;
   handleAddFolder: (
     newFolder: TemplateFolder,
@@ -129,19 +129,27 @@ export const useFileExplorer = create<FileExplorerState>((set, get) => ({
     });
   },
 
-    handleAddFile: async (newFile, parentPath, writeFileSync, instance, saveTemplateData) => {
+  handleAddFile: async (
+    newFile,
+    parentPath,
+    writeFileSync,
+    instance,
+    saveTemplateData,
+  ) => {
     const { templateData } = get();
     if (!templateData) return;
 
     try {
-      const updatedTemplateData = JSON.parse(JSON.stringify(templateData)) as TemplateFolder;
+      const updatedTemplateData = JSON.parse(
+        JSON.stringify(templateData),
+      ) as TemplateFolder;
       const pathParts = parentPath.split("/");
       let currentFolder = updatedTemplateData;
 
       for (const part of pathParts) {
         if (part) {
           const nextFolder = currentFolder.items.find(
-            (item) => "folderName" in item && item.folderName === part
+            (item) => "folderName" in item && item.folderName === part,
           ) as TemplateFolder;
           if (nextFolder) currentFolder = nextFolder;
         }
@@ -149,12 +157,12 @@ export const useFileExplorer = create<FileExplorerState>((set, get) => ({
 
       currentFolder.items.push(newFile);
       set({ templateData: updatedTemplateData });
-      toast.success(`Created file: ${newFile.filename}.${newFile.fileExtension}`);
+      toast.success(
+        `Created file: ${newFile.filename}.${newFile.fileExtension}`,
+      );
 
       // Use the passed saveTemplateData function
       await saveTemplateData(updatedTemplateData);
-
-      // Sync with web container
       if (writeFileSync) {
         const filePath = parentPath
           ? `${parentPath}/${newFile.filename}.${newFile.fileExtension}`
