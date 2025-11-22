@@ -362,7 +362,7 @@ const Page = () => {
                   </TooltipTrigger>
                   <TooltipContent>Save All (Ctrl+Shift+S)</TooltipContent>
                 </Tooltip>
-                {/*   // TODO AI HERE */}
+                <ToggleAI isEnabled={} onToggle={} suggestionLoading={} />
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button size="sm" variant="outline" onClick={() => {}}>

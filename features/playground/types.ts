@@ -116,3 +116,11 @@ export interface PlaygroundEditorProps {
   content: string;
   onContentChange: (value: string) => void;
 }
+
+export interface ToggleAIProps {
+  isEnabled: boolean;
+  onToggle: (value: boolean) => void;
+  suggestionLading: boolean;
+  loadingProgess?: number;
+  activeFeature?: string;
+}
