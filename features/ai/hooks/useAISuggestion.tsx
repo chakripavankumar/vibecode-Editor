@@ -4,10 +4,10 @@ import { AISuggestionState, UseAISuggestionReturn } from "../types";
 export const useAISuggestions = (): UseAISuggestionReturn => {
   const [state, setState] = useState<AISuggestionState>({
     suggestion: null,
-    isEnabled: true,
     isLoading: false,
     position: null,
     decoration: [],
+    isEnabled: true,
   });
 
   const toggleEnabled = useCallback(() => {
@@ -19,6 +19,8 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
     console.log("Fetching AI suggestion...");
     console.log("AI Suggestions Enabled:", state.isEnabled);
     console.log("Editor Instance Available:", !!editor);
+
+    // Use functional state update to get fresh state
     setState((currentState) => {
       if (!currentState.isEnabled) {
         console.warn("AI suggestions are disabled.");
@@ -37,7 +39,11 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
         console.warn("Editor model or cursor position is not available.");
         return currentState;
       }
+
+      // Set loading state immediately
       const newState = { ...currentState, isLoading: true };
+
+      // Perform the async operation
       (async () => {
         try {
           const payload = {
@@ -84,5 +90,81 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
 
       return newState;
     });
+  }, []); // Remove state.isEnabled from dependencies to prevent stale closures
+
+  const acceptSuggestion = useCallback((editor: any, monaco: any) => {
+    setState((currentState) => {
+      if (
+        !currentState.suggestion ||
+        !currentState.position ||
+        !editor ||
+        !monaco
+      ) {
+        return currentState;
+      }
+
+      const { line, column } = currentState.position;
+      const sanitizedSuggestion = currentState.suggestion.replace(
+        /^\d+:\s*/gm,
+        "",
+      );
+
+      editor.executeEdits("", [
+        {
+          range: new monaco.Range(line, column, line, column),
+          text: sanitizedSuggestion,
+          forceMoveMarkers: true,
+        },
+      ]);
+
+      // Clear decorations
+      if (editor && currentState.decoration.length > 0) {
+        editor.deltaDecorations(currentState.decoration, []);
+      }
+
+      return {
+        ...currentState,
+        suggestion: null,
+        position: null,
+        decoration: [],
+      };
+    });
   }, []);
+
+  const rejectSuggestion = useCallback((editor: any) => {
+    setState((currentState) => {
+      if (editor && currentState.decoration.length > 0) {
+        editor.deltaDecorations(currentState.decoration, []);
+      }
+      return {
+        ...currentState,
+        suggestion: null,
+        position: null,
+        decoration: [],
+      };
+    });
+  }, []);
+
+  const clearSuggestion = useCallback((editor: any) => {
+    setState((currentState) => {
+      if (editor && currentState.decoration.length > 0) {
+        editor.deltaDecorations(currentState.decoration, []);
+      }
+      return {
+        ...currentState,
+        suggestion: null,
+        position: null,
+        decoration: [],
+      };
+    });
+  }, []);
+
+  return {
+    ...state,
+    toggleEnabled,
+    fetchSuggestion,
+    acceptSuggestion,
+    rejectSuggestion,
+    clearSuggestion,
+  };
 };
