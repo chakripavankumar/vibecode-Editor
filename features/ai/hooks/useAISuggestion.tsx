@@ -20,13 +20,11 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
     console.log("AI Suggestions Enabled:", state.isEnabled);
     console.log("Editor Instance Available:", !!editor);
 
-    // Use functional state update to get fresh state
     setState((currentState) => {
       if (!currentState.isEnabled) {
         console.warn("AI suggestions are disabled.");
         return currentState;
       }
-
       if (!editor) {
         console.warn("Editor instance is not available.");
         return currentState;
@@ -40,10 +38,8 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
         return currentState;
       }
 
-      // Set loading state immediately
       const newState = { ...currentState, isLoading: true };
 
-      // Perform the async operation
       (async () => {
         try {
           const payload = {
