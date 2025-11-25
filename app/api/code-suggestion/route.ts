@@ -1,4 +1,5 @@
 import { analyzeCodeContext } from "@/features/ai/functions/analyzeCodeContext";
+import { buildPrompt } from "@/features/ai/functions/buildPrompt";
 import { generateSuggestion } from "@/features/ai/functions/generateSuggestion";
 import { CodeSuggestionRequest } from "@/features/ai/types";
 import { NextRequest, NextResponse } from "next/server";
