@@ -10,7 +10,7 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
     isEnabled: true,
   });
 
-  const toggleEnabled = useCallback(() => {
+  const toogleEnabled = useCallback(() => {
     console.log("Toggling AI suggestions");
     setState((prev) => ({ ...prev, isEnabled: !prev.isEnabled }));
   }, []);
@@ -86,7 +86,7 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
 
       return newState;
     });
-  }, []); // Remove state.isEnabled from dependencies to prevent stale closures
+  }, []);
 
   const acceptSuggestion = useCallback((editor: any, monaco: any) => {
     setState((currentState) => {
@@ -157,7 +157,7 @@ export const useAISuggestions = (): UseAISuggestionReturn => {
 
   return {
     ...state,
-    toggleEnabled,
+    toogleEnabled,
     fetchSuggestion,
     acceptSuggestion,
     rejectSuggestion,

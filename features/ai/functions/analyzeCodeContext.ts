@@ -43,10 +43,6 @@ function detectLanguage(content: string, fileName?: string): string {
       js: "JavaScript",
       jsx: "JavaScript",
       py: "Python",
-      java: "Java",
-      go: "Go",
-      rs: "Rust",
-      php: "PHP",
     };
     if (ext && extMap[ext]) return extMap[ext];
   }
@@ -63,11 +59,8 @@ function detectFramework(content: string): string {
     return "React";
   if (content.includes("import Vue") || content.includes("<template>"))
     return "Vue";
-  if (content.includes("@angular/") || content.includes("@Component"))
-    return "Angular";
   if (content.includes("next/") || content.includes("getServerSideProps"))
     return "Next.js";
-
   return "None";
 }
 function detectInFunction(lines: string[], currentLine: number): boolean {
