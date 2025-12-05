@@ -457,9 +457,14 @@ const Page = () => {
                         suggestion={aiSuggestion.suggestion}
                         suggestionLoading={aiSuggestion.isLoading}
                         suggestionPosition={aiSuggestion.position}
-                        onAcceptSuggestion={(editor,monaco)=> aiSuggestion.acceptSuggestion(editor,monaco)}
-                        onRejectSuggestion={(editor) => aiSuggestion.rejectSuggestion(editor)
-                          onTriggerSuggestion = {(type,editor) => aiSuggestion.fetchSuggestion(type,editor)}
+                        onAcceptSuggestion={(editor, monaco) =>
+                          aiSuggestion.acceptSuggestion(editor, monaco)
+                        }
+                        onRejectSuggestion={(editor) =>
+                          aiSuggestion.rejectSuggestion(editor)
+                        }
+                        onTriggerSuggestion={(type, editor) =>
+                          aiSuggestion.fetchSuggestion(type, editor)
                         }
                       />
                     </ResizablePanel>
