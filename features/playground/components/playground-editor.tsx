@@ -33,7 +33,7 @@ export const PlaygroundEditor = ({
 
   const generateSuggestionId = () =>
     `suggestion-${Date.now()}-${Math.random()}`;
-~~~
+
   const createInlineCompletionProvider = useCallback(
     (monaco: Monaco) => ({
       provideInlineCompletions: () => {
